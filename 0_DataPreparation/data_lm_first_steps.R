@@ -19,7 +19,7 @@ mod <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur, data)
 summary(mod)
 
 mod2 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur + Wochenende, data)
-summary(mod2)
+summary(mod2) # best model for now with 71,16 %
 
 mod3 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur + Wochenende + Windgeschwindigkeit, data)
 summary(mod3)
