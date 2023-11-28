@@ -18,8 +18,8 @@ data <- data %>%
 mod <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur, data)
 summary(mod)
 
-mod2 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur + Wochenende, data)
-summary(mod2) # best model for now with 71,16 %
+mod2 <- lm(Umsatz ~ as.factor(Warengruppe) + as.factor(Temperatur) + Wochenende, data) # todo: make 3-5 cats for Temperatur
+summary(mod2) # best model for now with 73,68 %
 
 mod3 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur + Wochenende + Windgeschwindigkeit, data)
 summary(mod3)
@@ -32,4 +32,5 @@ summary(mod5)
 
 mod6 <- lm(Umsatz ~ as.factor(Warengruppe) * Temperatur * Windgeschwindigkeit, data)
 summary(mod6)
+
 
