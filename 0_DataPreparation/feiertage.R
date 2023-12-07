@@ -35,4 +35,5 @@ for (feiertag in colnames(feiertage_df)) {
 }
 
 # Save the transformed data frame to CSV
-write.csv(feiertage_csv, "feiertage_kiel_transformed.csv", row.names = FALSE)
+write.csv(feiertage_csv, "feiertage.csv", row.names = FALSE)
+View(feiertage_csv)
