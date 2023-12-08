@@ -66,6 +66,8 @@ summary(mod1)
 
 Model 1: Adjusted R-squared:  0.6876
 
+Almost all variables seem to be relevant and will be kept for further the models.
+
 ```{r}
 # model 2
 mod2 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Bewoelkung, training_data1)
