@@ -9,10 +9,11 @@ First, the data will be arranged by date and then divided into a training data s
 
 ```{r}
 # import libraries
+library("readr")
 library("dplyr")
 
 # load csv-file with all data
-data <- read_csv("0_DataPreparation/data.csv")
+data <- read_csv("../0_DataPreparation/data.csv")
 
 # sort data by Datum
 data_sorted <- data %>% arrange(Datum)
@@ -53,6 +54,16 @@ training_data1 <- training_data %>%
 # check new added temperature_bins column and its unique values
 head(training_data1)
 training_data1 %>% distinct(Temperatur_bins) %>% arrange(Temperatur_bins)
+
+# approach two: create 7 manual bins
+training_data2 <- training_data %>%
+  mutate(Temperatur_bins = cut(Temperatur, 
+                               breaks = c(-10, 0, 5, 10, 15, 20, 25, 35), 
+                               include.lowest = TRUE))
+
+# check new added temperature_bins column and its unique values
+head(training_data2)
+training_data2 %>% distinct(Temperatur_bins) %>% arrange(Temperatur_bins)
 
 ```
 
@@ -107,4 +118,35 @@ summary(mod5)
 
 Model 5: Adjusted R-squared:  0.7129
 
-This models R-squared differs from model 4 by only 0.0001, but works without the variable Windgeschwindigkeit. With one variable less but almost the same R-squared it can be considered the best model for now.
+This models R-squared differs from model 4 by only 0.0001, but works without the variable Windgeschwindigkeit. Therefore, it won't be considered in the following model.
+
+```{r}
+# model 6 with training_data2
+mod6 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende, training_data2)
+summary(mod6)
+```
+
+Model 6: Adjusted R-squared:  0.7149
+
+Again, this model with the 7 manually chosen bins is slightly better than the one withe 8 automatically created bins. This can be considered the best model for now.
+How about even less bins?
+
+```{r}
+# approach three: create 4 manual bins
+training_data3 <- training_data %>%
+  mutate(Temperatur_bins = cut(Temperatur, 
+                               breaks = c(-10, 0, 10, 20, 35), 
+                               include.lowest = TRUE))
+
+# check new added temperature_bins column and its unique values
+head(training_data3)
+training_data3 %>% distinct(Temperatur_bins) %>% arrange(Temperatur_bins)
+
+# model 7 with training_data3
+mod7 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende, training_data3)
+summary(mod7)
+```
+
+Model 7: Adjusted R-squared:  0.7098 
+
+The R-squared is smaller than before, so the model 6 with 7 bins might be the best option for now.
