@@ -1759,6 +1759,60 @@ training data set (01.07.2013 until 31.07.2017) and a validation data
 set (01.08.2017 until 31.07.2018).</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpbXBvcnQgbGlicmFyaWVzXG5saWJyYXJ5KFwicmVhZHJcIilcbmxpYnJhcnkoXCJkcGx5clwiKVxuYGBgIn0= -->
+<pre class="r"><code># import libraries
+library(&quot;readr&quot;)
+library(&quot;dplyr&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hlIFBha2V0OiDigJhkcGx5cuKAmVxuXG5EaWUgZm9sZ2VuZGVuIE9iamVrdGUgc2luZCBtYXNraWVydCB2b24g4oCYcGFja2FnZTpzdGF0c+KAmTpcblxuICAgIGZpbHRlciwgbGFnXG5cbkRpZSBmb2xnZW5kZW4gT2JqZWt0ZSBzaW5kIG1hc2tpZXJ0IHZvbiDigJhwYWNrYWdlOmJhc2XigJk6XG5cbiAgICBpbnRlcnNlY3QsIHNldGRpZmYsIHNldGVxdWFsLCB1bmlvblxuIn0= -->
+<pre><code>
+Attache Paket: ‘dplyr’
+
+Die folgenden Objekte sind maskiert von ‘package:stats’:
+
+    filter, lag
+
+Die folgenden Objekte sind maskiert von ‘package:base’:
+
+    intersect, setdiff, setequal, union</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBsb2FkIGNzdi1maWxlIHdpdGggYWxsIGRhdGFcbmRhdGEgPC0gcmVhZF9jc3YoXCIuLi8wX0RhdGFQcmVwYXJhdGlvbi9kYXRhLmNzdlwiKVxuYGBgIn0= -->
+<pre class="r"><code># load csv-file with all data
+data &lt;- read_csv(&quot;../0_DataPreparation/data.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMTAxMjIgQ29sdW1uczogMTDilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5EZWxpbWl0ZXI6IFwiLFwiXG5kYmwgICg5KTogV2FyZW5ncnVwcGUsIFVtc2F0eiwgS2llbGVyV29jaGUsIEJld29lbGt1bmcsIFRlbXBlcmF0dXIsIFdpbmRnZXNjaHdpbmRpZ2tlaXQsIFdldHQuLi5cbmRhdGUgKDEpOiBEYXR1bVxu4oS5IFVzZSBgc3BlYygpYCB0byByZXRyaWV2ZSB0aGUgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbiBmb3IgdGhpcyBkYXRhLlxu4oS5IFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
+<pre><code>Rows: 10122 Columns: 10── Column specification ─────────────────────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+dbl  (9): Warengruppe, Umsatz, KielerWoche, Bewoelkung, Temperatur, Windgeschwindigkeit, Wett...
+date (1): Datum
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzb3J0IGRhdGEgYnkgRGF0dW1cbmRhdGFfc29ydGVkIDwtIGRhdGEgJT4lIGFycmFuZ2UoRGF0dW0pXG5oZWFkKGRhdGFfc29ydGVkKVxuYGBgIn0= -->
+<pre class="r"><code># sort data by Datum
+data_sorted &lt;- data %&gt;% arrange(Datum)
+head(data_sorted)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTAsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAxMCJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJxMVR6VXJEUUJEZU5rM1ZpRDhnaWdjRlFSRVB0cUE5Nk0wZzRrVkUwRXE5cnVtMERVMDNZYk9oNHNVK2l3ZWZ3eGZ3WFR5cGVMQk9zck5pY2xKMFlmUE5OL3ZOVEdiWVBUKzZhamhYRG1QTVloV3J4Q3diVFdaZk5vOXIrNHhWeWtoS3JNS21VcnhCMFFJYXFMWm1FYXZ1MDB1cVpvZ2pqYS9FWDRtL0VYL0xlQ0doN1FVOGp0R1kvK2FzSEhFRmlCKzRzeUozejJuZ3hQMVA4YTl4N1BkTEQyTk5FM2VGMFBCNXdtWEN5VUxjK2tNblhlN3FvejVmMnRSOGlmaGlJMXV1WFlqYnBueGJoTHVFRGNJOXdvMUMzS2ttcG0vM2JLUjFUWmJELzVyTHdmTnZ3L0tYUlBBQm1FdmlHQ2Rla21SQVpMckZKWWl1VEtJSXlGVzlITVJjM1JyQmlROEJ5RmJvOVl6QU9ZUmhDRUUvRVYzamFjSWdBb2w1SlhrV1dyNW9keUgyZWtNMC9HNGZmR1hFTFZBS3BCZTJUY0xwQzYrWEJCMlFQb2d2VVZwUWdFQlJ2cWNwR1E3cnBxOFozT1VSZnNiajhic1dsc2NzL3lpY05sZTgzcEVZd3JLbmtVczNFVWJLRHdVbUs2ZlAweTRFbDJUQk1aZUl0SGk3aHI4cytyV2RiTERwc1Y0elpGZS8yWTR1YVprZnM4MmdjZkMrTUVPd0EzNE5BWkZaYkRMcnNSNUpYM3hORHIxeFhZV0tHNTNqaFlIeDZHZi84UWw1SmR3cWxRUUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Datum"],"name":[1],"type":["date"],"align":["right"]},{"label":["Warengruppe"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Umsatz"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["KielerWoche"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Bewoelkung"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Temperatur"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Windgeschwindigkeit"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Wettercode"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["Schulferien"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["Wochenende"],"name":[10],"type":["dbl"],"align":["right"]}],"data":[{"1":"2012-01-01","2":"NA","3":"NA","4":"0","5":"8","6":"9.8250","7":"14","8":"58","9":"0","10":"1"},{"1":"2012-01-02","2":"NA","3":"NA","4":"0","5":"7","6":"7.4375","7":"12","8":"NA","9":"0","10":"0"},{"1":"2012-01-03","2":"NA","3":"NA","4":"0","5":"8","6":"5.5375","7":"18","8":"63","9":"0","10":"0"},{"1":"2012-01-04","2":"NA","3":"NA","4":"0","5":"4","6":"5.6875","7":"19","8":"80","9":"0","10":"0"},{"1":"2012-01-05","2":"NA","3":"NA","4":"0","5":"6","6":"5.3000","7":"23","8":"80","9":"0","10":"0"},{"1":"2012-01-06","2":"NA","3":"NA","4":"0","5":"3","6":"2.6250","7":"10","8":"NA","9":"0","10":"0"}],"options":{"columns":{"min":{},"max":[10],"total":[10]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIGRlbGV0ZSB1bm5lY2Vzc2FyeSByb3dzIHdpdGhvdXQgVW1zYXR6LWRhdGEsIHdoaWNoIHN0YXJ0cyBhdCAyMDEzLTA3LTAxXG5kYXRhX3NvcnRlZF9maWx0ZXIgPC0gZGF0YV9zb3J0ZWQgJT4lXG4gIGZpbHRlcihEYXR1bSA+PSBhcy5EYXRlKCcyMDEzLTA3LTAxJykpXG5cbiMgZGl2aWRlIGRhdGEgaW50byB0cmFpbmluZyBhbmQgdmFsaWRhdGlvbiBzZXRcbnRyYWluaW5nX2RhdGEgPC0gZGF0YV9zb3J0ZWRfZmlsdGVyICU+JSBmaWx0ZXIoRGF0dW0gPD0gXCIyMDE3LTA3LTMxXCIpXG52YWxpZGF0aW9uX2RhdGEgPC0gZGF0YV9zb3J0ZWRfZmlsdGVyICU+JSBmaWx0ZXIoRGF0dW0gPj0gXCIyMDE3LTA4LTAxXCIpXG5cbiMgY2hlY2sgbmV3IGRhdGEgc2V0c1xuaGVhZCh0cmFpbmluZ19kYXRhKVxuYGBgIn0= -->
+<pre class="r"><code>
+# delete unnecessary rows without Umsatz-data, which starts at 2013-07-01
+data_sorted_filter &lt;- data_sorted %&gt;%
+  filter(Datum &gt;= as.Date(&#39;2013-07-01&#39;))
+
+# divide data into training and validation set
+training_data &lt;- data_sorted_filter %&gt;% filter(Datum &lt;= &quot;2017-07-31&quot;)
+validation_data &lt;- data_sorted_filter %&gt;% filter(Datum &gt;= &quot;2017-08-01&quot;)
+
+# check new data sets
+head(training_data)</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTAsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAxMCJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJwMVRNVS9iUUJTK3hIRVNIRUdSMG9FZlVOR2hqU3ZVVm1MckNhRXVMSWlDUXNlTDg1S2M0cHl0ODFsQlhVZ1dSbjRBRWdzU1hUcXo4Z2NZT3BXcUM3K0JzZTJROURtK1E5aUwyejdwN252MytYdnYzVDNmN1cwZnZuWU9IVUtJUlNwV2lWZzJ1c1ErMkgvZjJpU2tVc1pGaVZUSVVvSkhLR3FpZzJwckJiRkt2OVltaWJ3WTZ5UzFURUxiODFrVW9iUDZpS3hzTXdXSU14eUxJdS91MDFDcVUxQ2RpNjVxZkpxaTBaazQyam1iM25WdXJ1amsrc2VYV3o2bGZQM2o1TnZMUzdwNzlQUGtkT2N0amI2ZnY2cC9mazY5WDcyNDgrTGF4SkYvdDdUZW10NVBFZFp6Y1J1M3ZjU0tjVGNiNStwOFJmZ3NWKytONWd2dytENlpheGNrOXgvK0ZzbC85ek43U1FRYmdia2tqaUh4a3NRanZXaTBtUVRSbDNFWWdxYXFCNk9JcVU5R3NNUEJCOWtPdklFUk9Gc3dEc0FmeHFKdm1IMFloU0F4cjlSTXM4MUZ0dytSTnhpancvdEQ0TXFJMjZBVVNDL29tb1NORDk0Zzluc2dPWWdIVVZKUWdFQlI5a3hMTWhpNzVsekxPTW9Ubk9ieitlOVVXSjZUN0tOd3Vrd3h0eWN4aEN5ZVJpWmRMUWdWRHdRbUt5ZlAwODRGbDJTT2VCS0xwSGkzaFZzV3c5YkdvckhKNTlTV3RWOTk1RHRwU2N0c3pEYU54c1p6WVpwZys2d0R2bDZzNENFWFozUkR5Y1ZENTVDTlhCVW9ablNPRi9pR1NaLzk3QS9XZGNkYmxRUUFBQT09In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -1766,15 +1820,8 @@ set (01.08.2017 until 31.07.2018).</p>
   </script>
 </div>
 <!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBkaXZpZGUgZGF0YSBpbnRvIHRyYWluaW5nIGFuZCB2YWxpZGF0aW9uIHNldFxudHJhaW5pbmdfZGF0YSA8LSBkYXRhX3NvcnRlZF9maWx0ZXIgJT4lIGZpbHRlcihEYXR1bSA8PSBcIjIwMTctMDctMzFcIilcbnZhbGlkYXRpb25fZGF0YSA8LSBkYXRhX3NvcnRlZF9maWx0ZXIgJT4lIGZpbHRlcihEYXR1bSA+PSBcIjIwMTctMDgtMDFcIilcblxuIyBjaGVjayBuZXcgZGF0YSBzZXRzXG5oZWFkKHRyYWluaW5nX2RhdGEpXG5cbmhlYWQodmFsaWRhdGlvbl9kYXRhKVxuYGBgIn0= -->
-<pre class="r"><code># divide data into training and validation set
-training_data &lt;- data_sorted_filter %&gt;% filter(Datum &lt;= &quot;2017-07-31&quot;)
-validation_data &lt;- data_sorted_filter %&gt;% filter(Datum &gt;= &quot;2017-08-01&quot;)
-
-# check new data sets
-head(training_data)
-
-head(validation_data)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZCh2YWxpZGF0aW9uX2RhdGEpXG5gYGAifQ== -->
+<pre class="r"><code>head(validation_data)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTAsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAxMCJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJwMVRNVy9UUUJTK3hIRWdqbElxdFFNRFF5ZTJSS29RRWhzblZMRWdVUWtha2dXcFYvc2xzV0tmcmZPWklDYVltUmpnUHpBeXNETjBSVUppWW1QcTBxVlNFV29ydGVsejdsNVVaMG5oSk90NzkvbDc3OTE5dXZkc3EzL1A2M3VNTVlmVm5BcHpYQXlaMjkxNTNIN0FXSzJLbXdxcnNVYUJyMUcwaGdHcW5SWEVPdjl4OHEyUUw4ZFRabGFwb090SElzc3dXTDFDMXJhRUJzUUwvR1pOSGg2WlZHNUw4SnNXVnkydUd5UWQ1ZkZndjN0d2Z2aUZ2eHZ2RDVxL1BuQVYvLzE0OS9zci9xSzFmUkw4T2VMNjVjL2Y3ejl2YzMvM2E2UC82Wmp5Mkw4djArKzJQYzh5WEYvSXU3OXIrR3ZpUE8rT3JiY01OeGI3V1g0WlBuMWJ5aU4vcjR2c3YvMHNQeElwWXFCSDRoR0pqeVNQN2FiWkV3cmtVT1ZwQ3BhcWQrTk02RGNrZUJKQ0JLcVgrQ01TZUk5Z2trQTB6dVdRbUIySVUxQllWMWxtclJmS1lBaVpQNXBnRUE3SEVHb1M5MEJyVUg0U1VNSG1jMytVUndOUUljaTVxR2dvUWFLb2ZLZUdTaVlkdWxjTHYycGg5WFE2UFRQQzZwU1ZoOElMaEJhZGdjSVVOaHVOVXJrYlNhckRSR0t4YWpHZTdrSnlSUzBRdDNKWk5BL2FlR1E1Ym0vT2pDMSttOVd5Y2YxSzdKbVdEaDNNSmFQUitGQ1NDVzRrOWlDeW14Vzg1T3lPblZTRmN1NGNzbGxISjFxUXp2T1RpQmd6OWhlWHFhVFBuWlVFQUFBPSJ9 -->
 <div data-pagedtable="false">
@@ -1826,7 +1873,7 @@ training_data1 &lt;- training_data %&gt;%
 # check new added temperature_bins column and its unique values
 head(training_data1)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTEsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAxMSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJwMVV6VzdUUUJEZS9EaEpiYVd0VkE1OUFBU1JzSTNjTkZFNVlWVVZsMTRxYUpVaWhKRGpiSkpWbkhXMHRrbkZoZlRDa1FkQTRvSUVGODVjK3dJY09GSEVoV2ZvRVRnMHpOcTdJYmFvREt4a2Z6T2Z2NW5aMlIvZjN6dHVxc2NxUXFpRXlxVUNLaWxnSXVYbzhKNnhnMUM1Q0U0QmxkRUt4eE1RYllDaEFhNENWdXhQMVJtWDUyTU5KU09WVUhFOUp3akFXRjhpeTN0T2lBRXY0WW1MM0wxSVFtMlJ3aGE1N0hXQjF4S1VPaGxuZDErZGZ1dCsvR0RQenI2K1B5ZW5Ocm54Y1BaWmYyc2ZuSHgvOFhLL1pRZGZYdCt1dmJ0cHV6LzZVZmZXbVl4RC96NlNlcHRpUG5sWXk4Ulo1MzArOHZFZ0hXZUtmSGw0UFZOdlcvQTUrUHlDdjZ0dlVHWWYvaGJSZjY5bnFTN2lybmhTaDZqaTRhZllrNmVvSnRqNkkyUEhiRm02MFRTMzd6d1dwTmFJWGQweVc1SlNHK0RvN1pTb0hXdVdSRnFEZTdyVlRsSGc2VnNwRmZmMExRaGZvc0RUbTdFcW5uWnhqdExIdmRKMzNOQm5LRDd3NmR0Qm5UR1dmV21TaE5zUmpXWDZqc013SGJCb01zRXkzZEU0Y01KblVyQlBzSWRaeDNlSFVxRHU0cW1QdlZGRUI1STV4T01KWnBDWENXYWpRMmh2Z0FOM09BV0RERWFZaEZMY3dXR0ltZXYzWkVMdGdUdU12RDVtQk5PRmlCZWttQzVFYTc5clBPa1NHbVJhWFdIKzFKVHQ4czB2enVBMW44OS9YckZxYXM4SkhiUFBJT1FQSzFmMUp5SHhlWlVpLzEwcG1lQUN5eEJyRWVYRmV3WjBRa2VHeFF2RW41TlJGM1pseWRhU2ttVTVNVVd1UCt3SG9iSnR4WE82MkJQT0tqUVo5MmhPR0tHTEJRVTJNRU0vZEtST2RYMVBNc2x2OFBJWDVoczZPS1VGQUFBPSJ9 -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTEsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAxMSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJwMVV6VzdUUUJEZS9EaEpiYVd0VkE0OEFJSkkyRVpKbXFpY3NGREZwWmNLV3FVSUlXUTdtMlFWWjIydGJWSnhJYjF3NUFHUXVDREJoVFBYdmdBSFRoUng0Umw2QkE0TnMvWnVpQzJxQUN2WjM4em5iMloyOXNmM2Q0L2E2cEdLRUNxaGNxbUFTZ3FZU0RrOHVHZnNJRlF1Z2xOQVpiVEc4UmhFVzJCb2dPdUFGZXRUZGNibHE3R0cwcEZKcUxpZUhZWmdiQzZSNVYwN3dvQVg4Q1JGN3B5bm9aWklZWWxjMXFiQUt5bEtuWXl6bkZjbjM1eVBINnpaNmRmM1orVEVJdGNmemo3cmI2Mzk0Kzh2WHU1MXJQREw2MXUxZHpjczk4Y2dkbTZleWpqMDd5T3RkMVhNWnhYV2NuSE5zd0VmcTNFL0cyZUtmS3Z3V3E3ZXR1Qlg0UE56L3E2K1FibDkrRnRFLzcyZXBicUl1K1RKSEtLS2g1OWlUNTZpbW1Ecmo0d2RzOVBVamJhNWZmdXhJTFZHNHVwTnN5TXB0UUdPM3MySXVvbG1TYVExdUtjM3V4a0tQTDJWVVhGUGIwSDRFZ1dlM2s1VXliU0xjNVE5N3BXQjdVWStROG1Cejk0T2FrK3c3RXVUSk55T2VDTFQ5MnlHNlpERlFZQmx1c05KYUVmUHBHQ1BZQSt6bnUrT3BFQzlpNmMrOXNZeEhVcm1BRThDekNBdkU4eFdqOUQrRUlmdWFBb0dHWTR4aWFTNGg2TUlNOWZ2eTRUYUEzY1Vld1BNQ0tZTEVTOUlNVjJJTm43WGVPSVFHdVphWFdQKzFKVHQ4czB2enVBMW44OS9YckpxYXQrT2JIUEFJT1FQSzFmMWc0ajR2RXFSLzY2VVhIQ0I1WWlObVBMaWZRTTZvV09qeFFza245TlJGM1pseWRiU2ttVTVNVVd1UCt3SG9iSnR4Yk1kN0FsbkhacE1lalFEUnVoaVFZRU56Y2lQYktsVFhkK1RUUG9idlBnRmdIM1luYVVGQUFBPSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["Datum"],"name":[1],"type":["date"],"align":["right"]},{"label":["Warengruppe"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Umsatz"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["KielerWoche"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Bewoelkung"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Temperatur"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Windgeschwindigkeit"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Wettercode"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["Schulferien"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["Wochenende"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["Temperatur_bins"],"name":[11],"type":["fctr"],"align":["left"]}],"data":[{"1":"2013-07-01","2":"1","3":"148.82835","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(16.5,21.5]"},{"1":"2013-07-01","2":"2","3":"535.85628","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(16.5,21.5]"},{"1":"2013-07-01","2":"3","3":"201.19843","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(16.5,21.5]"},{"1":"2013-07-01","2":"4","3":"65.89017","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(16.5,21.5]"},{"1":"2013-07-01","2":"5","3":"317.47587","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(16.5,21.5]"},{"1":"2013-07-02","2":"1","3":"159.79376","4":"0","5":"3","6":"17.3125","7":"10","8":"NA","9":"1","10":"0","11":"(16.5,21.5]"}],"options":{"columns":{"min":{},"max":[10],"total":[11]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
@@ -1836,7 +1883,7 @@ head(training_data1)</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJhaW5pbmdfZGF0YTEgJT4lIGRpc3RpbmN0KFRlbXBlcmF0dXJfYmlucykgJT4lIGFycmFuZ2UoVGVtcGVyYXR1cl9iaW5zKVxuYGBgIn0= -->
 <pre class="r"><code>training_data1 %&gt;% distinct(Temperatur_bins) %&gt;% arrange(Temperatur_bins)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6OSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyI5IMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbTFSWFUvQ01CUzkrd0laUVUzNEV6eDBUUVpDOE4zNEF3d21KTWFZTW9vdWpvNTBSWDMwWC92R3ZPMWF3eFlmYm5yUHlUbjNxdzkzNjFtOGpnRWdnRER3SUlnd2hlaHhkWjhzQVVJZmdRY2hEUFQ3aGFLeElTQVk0VHRvY3ZDTkc5WGFpZEhENkdOY2ZPdGE3U0s5Z24vd29zTHNXaXNzTzNwS2xuU2VrbVJHYjI2ZkxUbWNHRWhTT25kVVBFRkFGaTNSd21qT1JNT0pSaVJkdENoRVpOcFNhVVNtYUQrakVKR1pVYlhIanJLQ1ZXN3F2MTEyTEZPbHhPelVsUXUyNTEzNTFZcnZEMXd5ZFpRdm0xeFVIYzlBbHAvVStmUjVmWDIrdXE1L0dtRlFkK3JGVzZZWTNVbTAvRE5Ddnp5b3ZOUmQvTEg5bDNPeko3dlRIWVZ1dmsyeXQ2TjRUMUxkd1A0djJJRTgrK2N1OTVxV29Sc3NjbmZoNGpVWDNOMmlZQnRlV0hDSlM1b2Q2VUhtUXJsTmtLMm9LaFZ6dWpnckM4ZVkzZUQwQzhMeEx3dXFBZ0FBIn0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6OSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyI5IMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbTFSWFUvQ01CUzkrd0laUVUzNEV6eDBUZGlFNEx2eEJ4aE1TSXd4WlJSZEhCM3BpdnJvdi9hTmVWdGF3eFlmYm5yUHlUbjNxdzkzcXl4ZXhRQVFRQmg0RUVTWVF2UzR2RThXQUtHUHdJTVFCdnI5UXRIWUVCQ004QjJjY3ZDTkc5WGFpZEhENkdOY2ZPdGE3U0s5a24vd3NzYnNXaXNzTzNwS0ZuUTJKVWxHYjI2ZkxUbWNHRWltZE9hb2VJS0F6RnVpdWRHY2lZWVRqY2gwM3FJUWtiU2wwb2lrYUQrakVKSE1xTnBqUjNuSmFqZjEzeTVibHF0S1luYnN5Z1hiOGE3OGFzbDNleTZaT3NpWGRTSHFqbWNncTAvcWZQcTh2ajVmMHpRL0oySFFkT3JGRzZZWTNVcTAvRE5Ddjlxcm90SmQvTEg5bDNPeko3dlRIWVJ1dmtueXQ0TjRUMUxkd1A0djJJRTgrK2N1OTA0dFF6ZFk1TzdDeFdzaHVMdEZ5ZGE4dE9BU2x6UTcwcjBzaEhLYklGdFRWU25tZEhGZWxZNHh1OEh4RjZTWHphNnFBZ0FBIn0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["Temperatur_bins"],"name":[1],"type":["fctr"],"align":["left"]}],"data":[{"1":"[-8.51,-3.49]"},{"1":"(-3.49,1.5]"},{"1":"(1.5,6.49]"},{"1":"(6.49,11.5]"},{"1":"(11.5,16.5]"},{"1":"(16.5,21.5]"},{"1":"(21.5,26.4]"},{"1":"(26.4,31.5]"},{"1":"NA"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[9]},"pages":{}}}
@@ -1854,7 +1901,7 @@ training_data2 &lt;- training_data %&gt;%
 # check new added temperature_bins column and its unique values
 head(training_data2)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTEsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAxMSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJwMVV6VzdUUUJEZUpQNUpiZlZIQ2djZUFFRWtIQk9udGNRTkMxVmNlcW1nVllvUVFyYXpUbFp4MXRiYUpoVVgwZ3RISGdDSkN4SmNPSFB0QzNEZ1JCRVhucUZINE5Dd3RuZURiUlVaV0duOXpjeCtNN016Ty9MOTNhTnQ1VWdCQUxTQTBHcUFsa2hGSUI0ZTNPdmRCa0JvVXFVQkJMQ1c0akVsZGFpZ1V0eWdLRm1mNUVWS3I4YzJ5RmNwb09qNmRoUlJZYXRnRkhidEdGSzhvRHRMY3VjOGQ3VllDSXZGc3JZWVhzbVI4N2lmNWJ3NitlWjgvR0F0VHIrK1AwTW5GcnIrY1BGWmUydnRIMzkvOFhMUHRLSXZyMisxMzkydzNCOWU0dHc4NVg3ZzMxZWU3eXE3VHgyMkszN0dtWmV1ZXR3disra3NYaDFlcStUYllmWWFmSDZlZnVVM29QSU9mNHZndi92WldtZCs0dVc3TkVTU0Q1OUNuMCtSekt6eW81N1IxL3FQK2FSMSs1ckpGYWxyYXNicVNPNVNvbUVXVkZNYkZFNEhmVzFRT0IyWTJqWlZzenMwbDZBOHU1Sm51M0ZBUURhOTVWSEg5Z3p5UzZyY1NFYzltVEZGSGRvRTRqRkp3aER5Y0llenlJNmZjY0llZ2o0a3c4Q2RjSUp5Rjg0RDZFOFRQT2FXQXpnTElhRnhDYk4waGdpUHhqQnlKM01xb1BFVW9waVRoekNPSVhHREVRK29QbkFuaWU5QmdpQmVrZEtFR09JVmFmTjNqaWNPd2xHbDFEVVN6SFZlYnZxU3pRWDlMSmZMbjMvb21qS3lZMXYzQ0hXNXBITnlFTVlvU0xNME8yd0VpczROVWpGc0pqaE5QdXJSU3ZDMFo2UUpzdU44clROWktzaHFubExnRnhONS8rbDdJTXpMRm4zYmdUNVRObWlSV1kxNlNCQmVOWlJhSXowT1lwdnpGRGZ3dVNYL3AxMzhBa2FERTNGeUJRQUEifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTEsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAxMSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJwMVV6VzdUUUJEZUpQNUpiZlZIQ2djZUFFRWtISk80dGNRTkMxVmNlcW1nVllvUVFyYXpUbFp4MXRiYUpoVVgwZ3RISGdDSkN4SmNPSFB0QzNEZ1JCRVhucUZINE5Dd3RuZURiUlVaV0duOXpjeCtNN016Ty9MOTNhTnQ1VWdCQUxTQTBHcUFsa2hGSUI0ZTNPdmRCa0JvVXFVQkJMQ1c0akVsZGFpZ1V0eWdLRm1mNUVWS3I4YzJ5RmNwb09qNmRoUlJZYXRnRkhidEdGSzhvRHRMY3VjOGQ3VllDSXZGc3JZWVhzbVI4N2lmNWJ3NitlWjgvR0F0VHIrK1AwTW5GcnIrY1BGWmUydnRIMzkvOFhMUHRLSXZyMisxMzkydzNCOWU0dHc4NVg3ZzMxZWU3eXE3VHgyMkszNkRNeTlkOWJoZjl0Tlp2RHE4VnNtM3crdzErUHc4L2NwdlFPVWQvaGJCZi9lenRjNzh4TXQzYVlna0h6NkZQcDhpbVZubFI3MUJYK3MvNXBQVzdXc21WNlN1cVExV1IzS1hFZ2RtUVRVMW8zQnE5RFdqY0dxWTJqWlZzenMwbDZBOHU1Sm51M0ZBUURhOTVWSEg5Z3p5UzZyY1NFYzltVEZGSGRvRTRqRkp3aER5Y0llenlJNmZjY0llZ2o0a3c4Q2RjSUp5Rjg0RDZFOFRQT2FXQXpnTElhRnhDYk4waGdpUHhqQnlKM01xb1BFVW9waVRoekNPSVhHREVRK29QbkFuaWU5QmdpQmVrZEtFR09JVmFmTjNqaWNPd2xHbDFEVVN6SFZlYnZxU3pRWDlMSmZMbjMvb21qS3lZMXYzQ0hXNXBITnlFTVlvU0xNME8yd0VpczROVWpGc0pqaE5QdXJSU3ZDMFo2UUpzdU44clROWktzaHFubExnRnhONS8rbDdJTXpMRm4zYmdUNVRObWlSV1kxNlNCQmVOWlJhSXowT1lwdnpGRGZ3dVNYL3AxMzhBaURsOGRSeUJRQUEifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["Datum"],"name":[1],"type":["date"],"align":["right"]},{"label":["Warengruppe"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Umsatz"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["KielerWoche"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Bewoelkung"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Temperatur"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Windgeschwindigkeit"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Wettercode"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["Schulferien"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["Wochenende"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["Temperatur_bins"],"name":[11],"type":["fctr"],"align":["left"]}],"data":[{"1":"2013-07-01","2":"1","3":"148.82835","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(15,20]"},{"1":"2013-07-01","2":"2","3":"535.85628","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(15,20]"},{"1":"2013-07-01","2":"3","3":"201.19843","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(15,20]"},{"1":"2013-07-01","2":"4","3":"65.89017","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(15,20]"},{"1":"2013-07-01","2":"5","3":"317.47587","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(15,20]"},{"1":"2013-07-02","2":"1","3":"159.79376","4":"0","5":"3","6":"17.3125","7":"10","8":"NA","9":"1","10":"0","11":"(15,20]"}],"options":{"columns":{"min":{},"max":[10],"total":[11]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
@@ -1864,7 +1911,7 @@ head(training_data2)</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJhaW5pbmdfZGF0YTIgJT4lIGRpc3RpbmN0KFRlbXBlcmF0dXJfYmlucykgJT4lIGFycmFuZ2UoVGVtcGVyYXR1cl9iaW5zKVxuYGBgIn0= -->
 <pre class="r"><code>training_data2 %&gt;% distinct(Temperatur_bins) %&gt;% arrange(Temperatur_bins)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6OCwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyI4IMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbTFSMjJxRFFCQWQ3NDNRQytRbmZGQlJnOUFQS1AyQWtrSWdsTEl4bTFacVZsblh0by85N0Q3Rnp1cHVNTktIWmVmTW5qTnpadmJwWWJQeU56NEFXR0JiQmxnT2h1QThyeCtqZXdEYlJHQ0FEUXQ1ZnlOcE9TVEF1c2I3YW96QkhOVElsa284TGg3dlI5YTVMT0JXOUpOV0xVWjNrcUd5M2paS2t6QjVVZEFKa2pEWHdBM3lNRDAvZVFFUzAzd0M4ekNidkdaSm1FMWVzenhjSWJ6MDRCUVZhYldGczdFREtVVE5NVHJONll3YzZaeCt1NmJIaG5JaU92NjZLMWs3MHl4NC9SVnJuZHlUS1hmUjkvM3ZTTFQ2V1QxL1R3U0pEeHdsLzFqdzZrYVV0ZXhpTHRXQ3AyS0R6OTExVERiZlI4Vjd4ejZpVkRaUUh3WEtrS0UrVDhmRzJOTFd4aHk5RjhyZVNrYjFMaXF5bzVVQ056amtNR1BjOEpJSlBRbG0yMWpVZ21pZVg5U1Z6Z3l6d2VrUE5SVXBpWE1DQUFBPSJ9 -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6OCwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyI4IMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbTFSMjJxRFFCQWQ3NDNRQytRbmZGQlJnOUFQS1AyQWtrSWdsTEl4bTFacVZsblh0by85N0Q3Rnp1cHVNTktIWmVmTW5qTnpadmJwWWJQeU56NEFXR0JiQmxnT2h1QThyeCtqZXdEYlJHQ0FEUXQ1ZnlOcE9TVEF1c2I3YW96QkhOVElsa284TGg3dlI5YTVMT0JXOUpOV0xVWjNrcUd5M2paS2t6QjVVZEFKa2pEWHdBM3lNRDAvZVFFUzAzd0M4ekNidkdaSm1FMWVzenhjSWJ6MDRCUVZhYldGczdFREtVVE5NVHJONll3YzZaeCt1NmJIaG5JaU92NjZLMWs3MHl4NC9SVnJuZHlUS1hmUjkvM3ZTTFQ2V1QxL1R3U0pEeHdsLzFqdzZrYVV0ZXhpTHRXQ3AyS0R6OTExVERiZlI4Vjd4ejZpVERaUUh3WEtrS0UrVDhmRzJOTFd4aHk5RjhyZVNrYjFMaXF5bzVVQ056amtNR1BjOEpJSlBRbG0yMWpVZ21pZVg5U1Z6Z3l6d2VrUFUzUExMSE1DQUFBPSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["Temperatur_bins"],"name":[1],"type":["fctr"],"align":["left"]}],"data":[{"1":"[-10,0]"},{"1":"(0,5]"},{"1":"(5,10]"},{"1":"(10,15]"},{"1":"(15,20]"},{"1":"(20,25]"},{"1":"(25,35]"},{"1":"NA"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[8]},"pages":{}}}
@@ -1886,39 +1933,6 @@ R-squared value.</p>
 mod1 &lt;- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins, training_data1)
 summary(mod1)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFVtc2F0eiB+IGFzLmZhY3RvcihXYXJlbmdydXBwZSkgKyBUZW1wZXJhdHVyX2JpbnMsIFxuICAgIGRhdGEgPSB0cmFpbmluZ19kYXRhMSlcblxuUmVzaWR1YWxzOlxuICAgIE1pbiAgICAgIDFRICBNZWRpYW4gICAgICAzUSAgICAgTWF4IFxuLTIwNC43NCAgLTQ1LjI4ICAgLTguMDkgICAzMC4yMSAxNjIwLjQ0IFxuXG5Db2VmZmljaWVudHM6XG4gICAgICAgICAgICAgICAgICAgICAgICAgICBFc3RpbWF0ZSBTdGQuIEVycm9yIHQgdmFsdWUgUHIoPnx0fCkgICAgXG4oSW50ZXJjZXB0KSAgICAgICAgICAgICAgICAgIDgwLjc3NyAgICAgMTAuODM2ICAgNy40NTQgMS4wMGUtMTMgKioqXG5hcy5mYWN0b3IoV2FyZW5ncnVwcGUpMiAgICAgMjg5LjE2NCAgICAgIDMuMDU2ICA5NC42MzIgIDwgMmUtMTYgKioqXG5hcy5mYWN0b3IoV2FyZW5ncnVwcGUpMyAgICAgIDQyLjc1NiAgICAgIDMuMDU2ICAxMy45OTIgIDwgMmUtMTYgKioqXG5hcy5mYWN0b3IoV2FyZW5ncnVwcGUpNCAgICAgLTMyLjg4OSAgICAgIDMuMDg0IC0xMC42NjMgIDwgMmUtMTYgKioqXG5hcy5mYWN0b3IoV2FyZW5ncnVwcGUpNSAgICAgMTU5LjUyMyAgICAgIDMuMDU2ICA1Mi4yMDYgIDwgMmUtMTYgKioqXG5hcy5mYWN0b3IoV2FyZW5ncnVwcGUpNiAgICAgLTMwLjY0MCAgICAgIDUuODcwICAtNS4yMjAgMS44NGUtMDcgKioqXG5UZW1wZXJhdHVyX2JpbnMoLTMuNDksMS41XSAgICAzLjcwOCAgICAgMTEuNTEwICAgMC4zMjIgICAwLjc0NzMgICAgXG5UZW1wZXJhdHVyX2JpbnMoMS41LDYuNDldICAgICA5LjgwMyAgICAgMTAuODk1ICAgMC45MDAgICAwLjM2ODMgICAgXG5UZW1wZXJhdHVyX2JpbnMoNi40OSwxMS41XSAgIDE4LjcyNSAgICAgMTAuODMzICAgMS43MjkgICAwLjA4MzkgLiAgXG5UZW1wZXJhdHVyX2JpbnMoMTEuNSwxNi41XSAgIDQ0LjcwMSAgICAgMTAuODg5ICAgNC4xMDUgNC4wOWUtMDUgKioqXG5UZW1wZXJhdHVyX2JpbnMoMTYuNSwyMS41XSAgIDc0LjE0NiAgICAgMTAuODUwICAgNi44MzQgOC45MmUtMTIgKioqXG5UZW1wZXJhdHVyX2JpbnMoMjEuNSwyNi40XSAgIDg5LjI3NiAgICAgMTEuMTc2ICAgNy45ODggMS41N2UtMTUgKioqXG5UZW1wZXJhdHVyX2JpbnMoMjYuNCwzMS41XSAgIDgwLjg3MyAgICAgMTQuNTMwICAgNS41NjYgMi43MGUtMDggKioqXG4tLS1cblNpZ25pZi4gY29kZXM6ICAwIOKAmCoqKuKAmSAwLjAwMSDigJgqKuKAmSAwLjAxIOKAmCrigJkgMC4wNSDigJgu4oCZIDAuMSDigJgg4oCZIDFcblxuUmVzaWR1YWwgc3RhbmRhcmQgZXJyb3I6IDgyLjU5IG9uIDc0NzQgZGVncmVlcyBvZiBmcmVlZG9tXG4gICgzNiBCZW9iYWNodHVuZ2VuIGFscyBmZWhsZW5kIGdlbMO2c2NodClcbk11bHRpcGxlIFItc3F1YXJlZDogIDAuNjg4MSxcdEFkanVzdGVkIFItc3F1YXJlZDogIDAuNjg3NiBcbkYtc3RhdGlzdGljOiAgMTM3NCBvbiAxMiBhbmQgNzQ3NCBERiwgIHAtdmFsdWU6IDwgMi4yZS0xNlxuIn0= -->
-<pre><code>
-Call:
-lm(formula = Umsatz ~ as.factor(Warengruppe) + Temperatur_bins, 
-    data = training_data1)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--204.74  -45.28   -8.09   30.21 1620.44 
-
-Coefficients:
-                           Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                  80.777     10.836   7.454 1.00e-13 ***
-as.factor(Warengruppe)2     289.164      3.056  94.632  &lt; 2e-16 ***
-as.factor(Warengruppe)3      42.756      3.056  13.992  &lt; 2e-16 ***
-as.factor(Warengruppe)4     -32.889      3.084 -10.663  &lt; 2e-16 ***
-as.factor(Warengruppe)5     159.523      3.056  52.206  &lt; 2e-16 ***
-as.factor(Warengruppe)6     -30.640      5.870  -5.220 1.84e-07 ***
-Temperatur_bins(-3.49,1.5]    3.708     11.510   0.322   0.7473    
-Temperatur_bins(1.5,6.49]     9.803     10.895   0.900   0.3683    
-Temperatur_bins(6.49,11.5]   18.725     10.833   1.729   0.0839 .  
-Temperatur_bins(11.5,16.5]   44.701     10.889   4.105 4.09e-05 ***
-Temperatur_bins(16.5,21.5]   74.146     10.850   6.834 8.92e-12 ***
-Temperatur_bins(21.5,26.4]   89.276     11.176   7.988 1.57e-15 ***
-Temperatur_bins(26.4,31.5]   80.873     14.530   5.566 2.70e-08 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 82.59 on 7474 degrees of freedom
-  (36 Beobachtungen als fehlend gelöscht)
-Multiple R-squared:  0.6881,    Adjusted R-squared:  0.6876 
-F-statistic:  1374 on 12 and 7474 DF,  p-value: &lt; 2.2e-16</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Model 1: Adjusted R-squared: 0.6876</p>
@@ -1983,42 +1997,6 @@ considered in the following model.</p>
 mod6 &lt;- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien,            training_data1)
 summary(mod6)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFVtc2F0eiB+IGFzLmZhY3RvcihXYXJlbmdydXBwZSkgKyBUZW1wZXJhdHVyX2JpbnMgKyBcbiAgICBXb2NoZW5lbmRlICsgS2llbGVyV29jaGUgKyBTY2h1bGZlcmllbiwgZGF0YSA9IHRyYWluaW5nX2RhdGExKVxuXG5SZXNpZHVhbHM6XG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMjAwLjkyICAtNDEuODEgICAtNS42NyAgIDM0LjA4IDE1OTUuMDYgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpICAgICAgICAgICAgICAgICAgNTAuODA2ICAgICAxMC4wOTQgICA1LjAzMyA0LjkzZS0wNyAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSkyICAgICAyODkuMTY0ICAgICAgMi44MzUgMTAxLjk5OSAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSkzICAgICAgNDIuNzU2ICAgICAgMi44MzUgIDE1LjA4MiAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSk0ICAgICAtMzIuNTk3ICAgICAgMi44NjIgLTExLjM5MSAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSk1ICAgICAxNTkuNTIzICAgICAgMi44MzUgIDU2LjI3MCAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSk2ICAgICAtMjkuMjc5ICAgICAgNS40NDYgIC01LjM3NiA3Ljg1ZS0wOCAqKipcblRlbXBlcmF0dXJfYmlucygtMy40OSwxLjVdICAgMTMuNjY0ICAgICAxMC42OTIgICAxLjI3OCAgIDAuMjAxMyAgICBcblRlbXBlcmF0dXJfYmlucygxLjUsNi40OV0gICAgMTguNzY2ICAgICAxMC4xMjEgICAxLjg1NCAgIDAuMDYzNyAuICBcblRlbXBlcmF0dXJfYmlucyg2LjQ5LDExLjVdICAgMjQuMzA2ICAgICAxMC4wNTUgICAyLjQxNyAgIDAuMDE1NyAqICBcblRlbXBlcmF0dXJfYmlucygxMS41LDE2LjVdICAgNDguNDU1ICAgICAxMC4xMDYgICA0Ljc5NCAxLjY2ZS0wNiAqKipcblRlbXBlcmF0dXJfYmlucygxNi41LDIxLjVdICAgNzIuODE2ICAgICAxMC4wNzYgICA3LjIyNyA1LjQzZS0xMyAqKipcblRlbXBlcmF0dXJfYmlucygyMS41LDI2LjRdICAgNzkuNDkxICAgICAxMC4zNzUgICA3LjY2MiAyLjA3ZS0xNCAqKipcblRlbXBlcmF0dXJfYmlucygyNi40LDMxLjVdICAgNzMuMDM1ICAgICAxMy41MDEgICA1LjQxMCA2LjUxZS0wOCAqKipcbldvY2hlbmVuZGUgICAgICAgICAgICAgICAgICAgNTMuMjkwICAgICAgMS45NjcgIDI3LjA5NSAgPCAyZS0xNiAqKipcbktpZWxlcldvY2hlICAgICAgICAgICAgICAgICAgMjMuNzYwICAgICAgNS45NjEgICAzLjk4NiA2Ljc4ZS0wNSAqKipcblNjaHVsZmVyaWVuICAgICAgICAgICAgICAgICAgNDkuNzcwICAgICAgMi4yMTMgIDIyLjQ4OCAgPCAyZS0xNiAqKipcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogNzYuNjIgb24gNzQ3MSBkZWdyZWVzIG9mIGZyZWVkb21cbiAgKDM2IEJlb2JhY2h0dW5nZW4gYWxzIGZlaGxlbmQgZ2Vsw7ZzY2h0KVxuTXVsdGlwbGUgUi1zcXVhcmVkOiAgMC43MzE3LFx0QWRqdXN0ZWQgUi1zcXVhcmVkOiAgMC43MzExIFxuRi1zdGF0aXN0aWM6ICAxMzU4IG9uIDE1IGFuZCA3NDcxIERGLCAgcC12YWx1ZTogPCAyLjJlLTE2XG4ifQ== -->
-<pre><code>
-Call:
-lm(formula = Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + 
-    Wochenende + KielerWoche + Schulferien, data = training_data1)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--200.92  -41.81   -5.67   34.08 1595.06 
-
-Coefficients:
-                           Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                  50.806     10.094   5.033 4.93e-07 ***
-as.factor(Warengruppe)2     289.164      2.835 101.999  &lt; 2e-16 ***
-as.factor(Warengruppe)3      42.756      2.835  15.082  &lt; 2e-16 ***
-as.factor(Warengruppe)4     -32.597      2.862 -11.391  &lt; 2e-16 ***
-as.factor(Warengruppe)5     159.523      2.835  56.270  &lt; 2e-16 ***
-as.factor(Warengruppe)6     -29.279      5.446  -5.376 7.85e-08 ***
-Temperatur_bins(-3.49,1.5]   13.664     10.692   1.278   0.2013    
-Temperatur_bins(1.5,6.49]    18.766     10.121   1.854   0.0637 .  
-Temperatur_bins(6.49,11.5]   24.306     10.055   2.417   0.0157 *  
-Temperatur_bins(11.5,16.5]   48.455     10.106   4.794 1.66e-06 ***
-Temperatur_bins(16.5,21.5]   72.816     10.076   7.227 5.43e-13 ***
-Temperatur_bins(21.5,26.4]   79.491     10.375   7.662 2.07e-14 ***
-Temperatur_bins(26.4,31.5]   73.035     13.501   5.410 6.51e-08 ***
-Wochenende                   53.290      1.967  27.095  &lt; 2e-16 ***
-KielerWoche                  23.760      5.961   3.986 6.78e-05 ***
-Schulferien                  49.770      2.213  22.488  &lt; 2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 76.62 on 7471 degrees of freedom
-  (36 Beobachtungen als fehlend gelöscht)
-Multiple R-squared:  0.7317,    Adjusted R-squared:  0.7311 
-F-statistic:  1358 on 15 and 7471 DF,  p-value: &lt; 2.2e-16</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Model 6: Adjusted R-squared: 0.7311</p>
@@ -2026,46 +2004,11 @@ F-statistic:  1358 on 15 and 7471 DF,  p-value: &lt; 2.2e-16</code></pre>
 is even better than the one before.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBtb2RlbCA3IHdpdGggdHJhaW5pbmdfZGF0YTJcbm1vZDcgPC0gbG0oVW1zYXR6IH4gYXMuZmFjdG9yKFdhcmVuZ3J1cHBlKSArIFRlbXBlcmF0dXJfYmlucyArIFdvY2hlbmVuZGUgKyBLaWVsZXJXb2NoZSArIFNjaHVsZmVyaWVuLCB0cmFpbmluZ19kYXRhMilcbnN1bW1hcnkobW9kNylcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBtb2RlbCA3IHdpdGggdHJhaW5pbmdfZGF0YTJcbm1vZDcgPC0gbG0oVW1zYXR6IH4gYXMuZmFjdG9yKFdhcmVuZ3J1cHBlKSArIFRlbXBlcmF0dXJfYmlucyArIFdvY2hlbmVuZGUgKyBLaWVsZXJXb2NoZSArIFNjaHVsZmVyaWVuLCAgICAgICAgICAgIHRyYWluaW5nX2RhdGEyKVxuc3VtbWFyeShtb2Q3KVxuYGBgIn0= -->
 <pre class="r"><code># model 7 with training_data2
-mod7 &lt;- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien, training_data2)
+mod7 &lt;- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien,            training_data2)
 summary(mod7)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFVtc2F0eiB+IGFzLmZhY3RvcihXYXJlbmdydXBwZSkgKyBUZW1wZXJhdHVyX2JpbnMgKyBcbiAgICBXb2NoZW5lbmRlICsgS2llbGVyV29jaGUgKyBTY2h1bGZlcmllbiwgZGF0YSA9IHRyYWluaW5nX2RhdGEyKVxuXG5SZXNpZHVhbHM6XG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMTk0Ljg5ICAtNDIuMTYgICAtNC45MiAgIDMzLjE1IDE1OTguMTYgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpICAgICAgICAgICAgICAgNjEuODI5ICAgICAgNS4wOTggIDEyLjEyOSAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSkyICAyODkuMTY0ICAgICAgMi44MzEgMTAyLjEyNCAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSkzICAgNDIuNzU2ICAgICAgMi44MzEgIDE1LjEwMCAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSk0ICAtMzIuNTQ5ICAgICAgMi44NTggLTExLjM4OCAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSk1ICAxNTkuNTIzICAgICAgMi44MzEgIDU2LjMzOSAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSk2ICAtMjkuMjA3ICAgICAgNS40MzUgIC01LjM3NCA3Ljk1ZS0wOCAqKipcblRlbXBlcmF0dXJfYmlucygwLDVdICAgICAgIDYuMTgyICAgICAgNS4yOTQgICAxLjE2OCAgIDAuMjQzMCAgICBcblRlbXBlcmF0dXJfYmlucyg1LDEwXSAgICAgMTEuNjg2ICAgICAgNS4wMzYgICAyLjMyMCAgIDAuMDIwNCAqICBcblRlbXBlcmF0dXJfYmlucygxMCwxNV0gICAgMjcuMTgyICAgICAgNS4xMjEgICA1LjMwOCAxLjE0ZS0wNyAqKipcblRlbXBlcmF0dXJfYmlucygxNSwyMF0gICAgNTcuMjc2ICAgICAgNS4wODUgIDExLjI2MyAgPCAyZS0xNiAqKipcblRlbXBlcmF0dXJfYmlucygyMCwyNV0gICAgNzEuNjgwICAgICAgNS40NDAgIDEzLjE3NiAgPCAyZS0xNiAqKipcblRlbXBlcmF0dXJfYmlucygyNSwzNV0gICAgNjYuNzIwICAgICAgNy4xMzcgICA5LjM0OCAgPCAyZS0xNiAqKipcbldvY2hlbmVuZGUgICAgICAgICAgICAgICAgNTIuMjc1ICAgICAgMS45NjggIDI2LjU2NCAgPCAyZS0xNiAqKipcbktpZWxlcldvY2hlICAgICAgICAgICAgICAgMjMuNDk3ICAgICAgNS45NDcgICAzLjk1MSA3Ljg2ZS0wNSAqKipcblNjaHVsZmVyaWVuICAgICAgICAgICAgICAgNDguMjYzICAgICAgMi4yMjIgIDIxLjcxOSAgPCAyZS0xNiAqKipcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogNzYuNTMgb24gNzQ3MiBkZWdyZWVzIG9mIGZyZWVkb21cbiAgKDM2IEJlb2JhY2h0dW5nZW4gYWxzIGZlaGxlbmQgZ2Vsw7ZzY2h0KVxuTXVsdGlwbGUgUi1zcXVhcmVkOiAgMC43MzIzLFx0QWRqdXN0ZWQgUi1zcXVhcmVkOiAgMC43MzE4IFxuRi1zdGF0aXN0aWM6ICAxNDYwIG9uIDE0IGFuZCA3NDcyIERGLCAgcC12YWx1ZTogPCAyLjJlLTE2XG4ifQ== -->
-<pre><code>
-Call:
-lm(formula = Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + 
-    Wochenende + KielerWoche + Schulferien, data = training_data2)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--194.89  -42.16   -4.92   33.15 1598.16 
-
-Coefficients:
-                        Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)               61.829      5.098  12.129  &lt; 2e-16 ***
-as.factor(Warengruppe)2  289.164      2.831 102.124  &lt; 2e-16 ***
-as.factor(Warengruppe)3   42.756      2.831  15.100  &lt; 2e-16 ***
-as.factor(Warengruppe)4  -32.549      2.858 -11.388  &lt; 2e-16 ***
-as.factor(Warengruppe)5  159.523      2.831  56.339  &lt; 2e-16 ***
-as.factor(Warengruppe)6  -29.207      5.435  -5.374 7.95e-08 ***
-Temperatur_bins(0,5]       6.182      5.294   1.168   0.2430    
-Temperatur_bins(5,10]     11.686      5.036   2.320   0.0204 *  
-Temperatur_bins(10,15]    27.182      5.121   5.308 1.14e-07 ***
-Temperatur_bins(15,20]    57.276      5.085  11.263  &lt; 2e-16 ***
-Temperatur_bins(20,25]    71.680      5.440  13.176  &lt; 2e-16 ***
-Temperatur_bins(25,35]    66.720      7.137   9.348  &lt; 2e-16 ***
-Wochenende                52.275      1.968  26.564  &lt; 2e-16 ***
-KielerWoche               23.497      5.947   3.951 7.86e-05 ***
-Schulferien               48.263      2.222  21.719  &lt; 2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 76.53 on 7472 degrees of freedom
-  (36 Beobachtungen als fehlend gelöscht)
-Multiple R-squared:  0.7323,    Adjusted R-squared:  0.7318 
-F-statistic:  1460 on 14 and 7472 DF,  p-value: &lt; 2.2e-16</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Model 7: Adjusted R-squared: 0.7318</p>
@@ -2074,7 +2017,7 @@ than the one with the 8 automatically created bins. This can be
 considered the best model for now. How about even less bins?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhcHByb2FjaCB0aHJlZTogY3JlYXRlIDQgbWFudWFsIGJpbnNcbnRyYWluaW5nX2RhdGEzIDwtIHRyYWluaW5nX2RhdGEgJT4lXG4gIG11dGF0ZShUZW1wZXJhdHVyX2JpbnMgPSBjdXQoVGVtcGVyYXR1ciwgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYnJlYWtzID0gYygtMTAsIDAsIDEwLCAyMCwgMzUpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbmNsdWRlLmxvd2VzdCA9IFRSVUUpKVxuXG4jIGNoZWNrIG5ldyBhZGRlZCB0ZW1wZXJhdHVyZV9iaW5zIGNvbHVtbiBhbmQgaXRzIHVuaXF1ZSB2YWx1ZXNcbmhlYWQodHJhaW5pbmdfZGF0YTMpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhcHByb2FjaCB0aHJlZTogY3JlYXRlIDQgbWFudWFsIGJpbnNcbnRyYWluaW5nX2RhdGEzIDwtIHRyYWluaW5nX2RhdGEgJT4lXG4gIG11dGF0ZShUZW1wZXJhdHVyX2JpbnMgPSBjdXQoVGVtcGVyYXR1ciwgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYnJlYWtzID0gYygtMTAsIDAsIDEwLCAyMCwgMzUpLCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbmNsdWRlLmxvd2VzdCA9IFRSVUUpKVxuXG4jIGNoZWNrIG5ldyBhZGRlZCB0ZW1wZXJhdHVyZV9iaW5zIGNvbHVtbiBhbmQgaXRzIHVuaXF1ZSB2YWx1ZXNcbmhlYWQodHJhaW5pbmdfZGF0YTMpXG50cmFpbmluZ19kYXRhMyAlPiUgZGlzdGluY3QoVGVtcGVyYXR1cl9iaW5zKSAlPiUgYXJyYW5nZShUZW1wZXJhdHVyX2JpbnMpXG5cbiMgbW9kZWwgOCB3aXRoIHRyYWluaW5nX2RhdGEzXG5tb2Q4IDwtIGxtKFVtc2F0eiB+IGFzLmZhY3RvcihXYXJlbmdydXBwZSkgKyBUZW1wZXJhdHVyX2JpbnMgKyBXb2NoZW5lbmRlICsgS2llbGVyV29jaGUgKyBTY2h1bGZlcmllbiwgICAgICAgICAgICB0cmFpbmluZ19kYXRhMylcbnN1bW1hcnkobW9kOClcbmBgYCJ9 -->
 <pre class="r"><code># approach three: create 4 manual bins
 training_data3 &lt;- training_data %&gt;%
   mutate(Temperatur_bins = cut(Temperatur, 
@@ -2082,63 +2025,13 @@ training_data3 &lt;- training_data %&gt;%
                                include.lowest = TRUE))
 
 # check new added temperature_bins column and its unique values
-head(training_data3)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6MTEsInN1bW1hcnkiOnsiQSB0aWJibGUiOlsiNiDDlyAxMSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJwMVV6VzdUUUJEZXhIYWMydXFQVkE0OEFJSktKQ2JwaitpdEsxUng2YVdDVmlsQ0ZWbzc2MlFWWjIydGJWSnhJYjF3NUFHUXVDREJoVFBYdmdBSFRoUng0Umw2QkE0TnUvRnVpSzBpQXl2WjM4enNOL041ZGtkK3NIdTBZUjFaQUFBTjZGb0ZhQVkzZ1hGNGNMKzVEWUJlNVU0RjZHQkI0QWtuclhMRDVyakVzUVkvbVdOQkw4YzZ5RmF1b09FRktJNjVzVElYMUhkUmdqbGU4bWNxc25PUnBVSlpBc3BhY0VYaXRRd1ZUK1ZCOTlYcE4vZmpCemcrKy9yK25KeENjdlBSK0hQakxkdy8rZjdpNWQ0V2pMKzh2bE4vZHd0NlAvelV2WDJtOHNDL3IwenZ1dnllTXF3WDh0cm52bGpsdUovUGMyUzlNcnhSME51VThSSjhmaUhlNWh0UXVJZS9SZkRmNTZrdHlqenQ2aWMzUkxVQVA4V0JtaUpkUnMzSHpYYXIwVHBXcExWV296M3p6RFcrdHo3bnJyY2FHMXZIV2VIcUJPUUhzdVlqTHdrWm1JNWtmbjRwR21LbGJLc2duOTkwS0IyN2d4aW1QWlpHRVZibERvY3hTcDRwd2g3QkFXYWQwT3NyZ25VUGowSWNERkxhVTVFRFBJd3c0M1daakt4MkNPMzJjT3oxUjl3Z3ZRRW1pU0ozY0pKZzVvVmRWZEIrNlBYVHdNZU1ZRG9qQ1VHSzZZeTAvRnZqaVV0b1hHaDFnWVVqUjdVcnJxYzY1cS9KWlBMekQ2ZG1kVkdDSEoveGxDdE96Z3lqaElSQ3BTcCtLRVlodWNJS2dlV1VDdkZ1azNkQ0I4MjdRbUM2bmExRmFkZm1iRHVUMU5XSEdlcjgrWDBRcXRvMkF1VGlRRHBMdk1scGowN0VDSjBkS0kvR1RoSW1TUEVzTHd4VUpQdFJYZjRDa1B4SU5VY0ZBQUE9In0= -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Datum"],"name":[1],"type":["date"],"align":["right"]},{"label":["Warengruppe"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Umsatz"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["KielerWoche"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Bewoelkung"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Temperatur"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Windgeschwindigkeit"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Wettercode"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["Schulferien"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["Wochenende"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["Temperatur_bins"],"name":[11],"type":["fctr"],"align":["left"]}],"data":[{"1":"2013-07-01","2":"1","3":"148.82835","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(10,20]"},{"1":"2013-07-01","2":"2","3":"535.85628","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(10,20]"},{"1":"2013-07-01","2":"3","3":"201.19843","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(10,20]"},{"1":"2013-07-01","2":"4","3":"65.89017","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(10,20]"},{"1":"2013-07-01","2":"5","3":"317.47587","4":"0","5":"6","6":"17.8375","7":"15","8":"20","9":"1","10":"0","11":"(10,20]"},{"1":"2013-07-02","2":"1","3":"159.79376","4":"0","5":"3","6":"17.3125","7":"10","8":"NA","9":"1","10":"0","11":"(10,20]"}],"options":{"columns":{"min":{},"max":[10],"total":[11]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudHJhaW5pbmdfZGF0YTMgJT4lIGRpc3RpbmN0KFRlbXBlcmF0dXJfYmlucykgJT4lIGFycmFuZ2UoVGVtcGVyYXR1cl9iaW5zKVxuYGBgIn0= -->
-<pre class="r"><code>training_data3 %&gt;% distinct(Temperatur_bins) %&gt;% arrange(Temperatur_bins)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyI1IMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbTFRVzJyRE1CQmNXWFpOREgxQUxwRVAyemdKcFQxQTZRRktDb0VRaXVJb3Fha2lHVmx1KzlsN0YrSkt0aFJTa1MvTnJtWjJkdmJsYVRsUGxna0FZQWd4QWh4cENOSHI0amw3QkFnRFhTQUlZV1RlYjAwYTl3M0ExNFkxWUFoNnRXYi9HTzEvMFJXam41UTFHdDJaTDl1TlY5bTBTSXUxSTAyS2RIcXE0b24rbTUyVnN5S2QzNis5d1ZISlNPUG1udHgycEZSQ2FuVDA2WndjcUUrL1hkQkRUU1ZSclh6YlZMenhOQ01wdm5Lbk00RURFN0RydXQrQmlEdHZYcklsaXVRN3FTVVhWb2hGclNwaFhJS3h2ZDY1R0VsL3U1WWI4MjFXdnJmOEkzc3dCdmJpWUJkQ2RvN0RhTEFNM1dLUnV3dmwrNHBUZHd0R05wVFo0a2FIN0RQbXRheTRja2wwdDhtVlVNVHhrbEl3MSttendmRVBnNHVid0R3Q0FBQT0ifQ== -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Temperatur_bins"],"name":[1],"type":["fctr"],"align":["left"]}],"data":[{"1":"[-10,0]"},{"1":"(0,10]"},{"1":"(10,20]"},{"1":"(20,35]"},{"1":"NA"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[5]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIG1vZGVsIDggd2l0aCB0cmFpbmluZ19kYXRhM1xubW9kOCA8LSBsbShVbXNhdHogfiBhcy5mYWN0b3IoV2FyZW5ncnVwcGUpICsgVGVtcGVyYXR1cl9iaW5zICsgV29jaGVuZW5kZSArIEtpZWxlcldvY2hlICsgU2NodWxmZXJpZW4sICAgICAgICAgICAgdHJhaW5pbmdfZGF0YTMpXG5zdW1tYXJ5KG1vZDgpXG5gYGAifQ== -->
-<pre class="r"><code>
+head(training_data3)
+training_data3 %&gt;% distinct(Temperatur_bins) %&gt;% arrange(Temperatur_bins)
+
 # model 8 with training_data3
 mod8 &lt;- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien,            training_data3)
 summary(mod8)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5DYWxsOlxubG0oZm9ybXVsYSA9IFVtc2F0eiB+IGFzLmZhY3RvcihXYXJlbmdydXBwZSkgKyBUZW1wZXJhdHVyX2JpbnMgKyBcbiAgICBXb2NoZW5lbmRlICsgS2llbGVyV29jaGUgKyBTY2h1bGZlcmllbiwgZGF0YSA9IHRyYWluaW5nX2RhdGEzKVxuXG5SZXNpZHVhbHM6XG4gICAgTWluICAgICAgMVEgIE1lZGlhbiAgICAgIDNRICAgICBNYXggXG4tMTk0LjU3ICAtNDIuNzYgICAtNS4wNyAgIDMzLjcyIDE1OTkuODkgXG5cbkNvZWZmaWNpZW50czpcbiAgICAgICAgICAgICAgICAgICAgICAgIEVzdGltYXRlIFN0ZC4gRXJyb3IgdCB2YWx1ZSBQcig+fHR8KSAgICBcbihJbnRlcmNlcHQpICAgICAgICAgICAgICAgNjEuMzYzICAgICAgNS4xMzkgIDExLjk0MSAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSkyICAyODkuMTY0ICAgICAgMi44NTUgMTAxLjMwMCAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSkzICAgNDIuNzU2ICAgICAgMi44NTUgIDE0Ljk3OCAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSk0ICAtMzIuNTQwICAgICAgMi44ODEgLTExLjI5MyAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSk1ICAxNTkuNTIzICAgICAgMi44NTUgIDU1Ljg4NCAgPCAyZS0xNiAqKipcbmFzLmZhY3RvcihXYXJlbmdydXBwZSk2ICAtMzIuMDQyICAgICAgNS40NzMgIC01Ljg1NCA1LjAwZS0wOSAqKipcblRlbXBlcmF0dXJfYmlucygwLDEwXSAgICAgIDkuODY3ICAgICAgNC45NjkgICAxLjk4NiAgIDAuMDQ3MSAqICBcblRlbXBlcmF0dXJfYmlucygxMCwyMF0gICAgNDIuOTUxICAgICAgNC45NTYgICA4LjY2NiAgPCAyZS0xNiAqKipcblRlbXBlcmF0dXJfYmlucygyMCwzNV0gICAgNzAuMTIxICAgICAgNS4zNTkgIDEzLjA4NCAgPCAyZS0xNiAqKipcbldvY2hlbmVuZGUgICAgICAgICAgICAgICAgNTMuODc2ICAgICAgMS45NzkgIDI3LjIzMCAgPCAyZS0xNiAqKipcbktpZWxlcldvY2hlICAgICAgICAgICAgICAgMzEuMjQ2ICAgICAgNS45NTQgICA1LjI0OCAxLjU4ZS0wNyAqKipcblNjaHVsZmVyaWVuICAgICAgICAgICAgICAgNDguODIwICAgICAgMi4yMzQgIDIxLjg1NiAgPCAyZS0xNiAqKipcbi0tLVxuU2lnbmlmLiBjb2RlczogIDAg4oCYKioq4oCZIDAuMDAxIOKAmCoq4oCZIDAuMDEg4oCYKuKAmSAwLjA1IOKAmC7igJkgMC4xIOKAmCDigJkgMVxuXG5SZXNpZHVhbCBzdGFuZGFyZCBlcnJvcjogNzcuMTUgb24gNzQ3NSBkZWdyZWVzIG9mIGZyZWVkb21cbiAgKDM2IEJlb2JhY2h0dW5nZW4gYWxzIGZlaGxlbmQgZ2Vsw7ZzY2h0KVxuTXVsdGlwbGUgUi1zcXVhcmVkOiAgMC43Mjc4LFx0QWRqdXN0ZWQgUi1zcXVhcmVkOiAgMC43Mjc0IFxuRi1zdGF0aXN0aWM6ICAxODE3IG9uIDExIGFuZCA3NDc1IERGLCAgcC12YWx1ZTogPCAyLjJlLTE2XG4ifQ== -->
-<pre><code>
-Call:
-lm(formula = Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + 
-    Wochenende + KielerWoche + Schulferien, data = training_data3)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--194.57  -42.76   -5.07   33.72 1599.89 
-
-Coefficients:
-                        Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)               61.363      5.139  11.941  &lt; 2e-16 ***
-as.factor(Warengruppe)2  289.164      2.855 101.300  &lt; 2e-16 ***
-as.factor(Warengruppe)3   42.756      2.855  14.978  &lt; 2e-16 ***
-as.factor(Warengruppe)4  -32.540      2.881 -11.293  &lt; 2e-16 ***
-as.factor(Warengruppe)5  159.523      2.855  55.884  &lt; 2e-16 ***
-as.factor(Warengruppe)6  -32.042      5.473  -5.854 5.00e-09 ***
-Temperatur_bins(0,10]      9.867      4.969   1.986   0.0471 *  
-Temperatur_bins(10,20]    42.951      4.956   8.666  &lt; 2e-16 ***
-Temperatur_bins(20,35]    70.121      5.359  13.084  &lt; 2e-16 ***
-Wochenende                53.876      1.979  27.230  &lt; 2e-16 ***
-KielerWoche               31.246      5.954   5.248 1.58e-07 ***
-Schulferien               48.820      2.234  21.856  &lt; 2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 77.15 on 7475 degrees of freedom
-  (36 Beobachtungen als fehlend gelöscht)
-Multiple R-squared:  0.7278,    Adjusted R-squared:  0.7274 
-F-statistic:  1817 on 11 and 7475 DF,  p-value: &lt; 2.2e-16</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Model 8: Adjusted R-squared: 0.7274</p>
