@@ -1,0 +1,70 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Previously, we could determine model 7 as our baseline model.
+
+In this notebook, model 7 will be tested against the validation data and afterwards used to predict the Umsatz data for the timeframe of one year: 2018-08-01 until 2019-07-30.
+
+```{r}
+library("readr")
+library("dplyr")
+
+# load csv-files for training, validation and test data
+training_data2 <- read_csv("../3_Model/training_data2.csv")
+validation_data2 <- read_csv("../3_Model/validation_data2.csv")
+test_data1 <- read_csv("../3_Model/test.csv")
+test_data2 <- read_csv("../3_Model/test_data2.csv")
+
+# load csv-file for submission of predicted values
+submission <- read_csv("../3_Model/sample_submission.csv")
+```
+
+```{r}
+# remove unneeded columns from test_data2
+test_data2 <- test_data2[, !(names(test_data2) %in% c("id", "Warengruppe", "Umsatz"))]
+
+# add the same variables of the training and validation data sets to the test data
+test_data <- test_data1 %>%
+  left_join(test_data2, by = "Datum")
+
+head(test_data)
+```
+
+
+```{r}
+# make predictions with model 7 and compare with actual values of validation data
+# model 7, our baseline model
+mod7 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien,             training_data2)
+
+# make predictions for validation data
+predicted_values <- predict(mod7, newdata = validation_data2)
+
+# compare the predicted values with the actual values of validation data
+comparison <- data.frame(actual = validation_data2$Umsatz, predicted = predicted_values)
+
+# Calculate the root mean squared error (RMSE)
+rmse <- sqrt(mean((comparison$actual - comparison$predicted)^2, na.rm = TRUE))
+
+# Display the comparison and RMSE
+head(comparison)
+cat("Root Mean Squared Error (RMSE):", rmse, "\n")
+
+```
+
+### What is our conclusion?? 
+
+```{r}
+# make predictions with model 7 for test data
+predicted_test_values <- predict(mod7, newdata = test_data)
+
+# save predictions as dataframe
+submission$Umsatz <- predicted_test_values
+head(submission)
+
+# save predictions as csv-file
+write.csv(submission, "gruppe3_submission.csv", row.names = FALSE)
+```
+
+

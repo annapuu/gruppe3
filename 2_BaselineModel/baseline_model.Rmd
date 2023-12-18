@@ -25,7 +25,8 @@ data_sorted_filter <- data_sorted %>%
 
 # divide data into training and validation set
 training_data <- data_sorted_filter %>% filter(Datum <= "2017-07-31")
-validation_data <- data_sorted_filter %>% filter(Datum >= "2017-08-01")
+validation_data <- data_sorted_filter %>% filter(Datum >= "2017-08-01" & Datum <= "2018-07-31")
+test_data2 <- data_sorted_filter %>% filter(Datum >= "2018-08-01")
 
 # check new data sets
 head(training_data)
@@ -163,4 +164,28 @@ summary(mod8)
 
 Model 8: Adjusted R-squared:  0.7274 
 
-The R-squared is smaller than before, so the model 7 with 7 bins might be the best option for now.
+The R-squared is smaller than before, so the model 7 with 7 bins is be the best option for now.
+
+
+
+Preparation for the next step of putting model 7 to use:
+
+```{r}
+# create 7 manual bins for validation data and test data as well
+validation_data2 <- validation_data %>%
+  mutate(Temperatur_bins = cut(Temperatur, 
+                               breaks = c(-10, 0, 5, 10, 15, 20, 25, 35), 
+                               include.lowest = TRUE))
+
+test_data2 <- test_data2 %>%
+  mutate(Temperatur_bins = cut(Temperatur, 
+                               breaks = c(-10, 0, 5, 10, 15, 20, 25, 35), 
+                               include.lowest = TRUE))
+
+head(validation_data2)
+
+# save the training and validation data as csv-files for the next step
+write.csv(training_data2, file = "../3_Model/training_data2.csv", row.names = FALSE)
+write.csv(validation_data2, file = "../3_Model/validation_data2.csv", row.names = FALSE)
+write.csv(test_data2, file = "../3_Model/test_data2.csv", row.names = FALSE)
+```
