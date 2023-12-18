@@ -63,8 +63,12 @@ predicted_test_values <- predict(mod7, newdata = test_data)
 submission$Umsatz <- predicted_test_values
 head(submission)
 
+# fill missing values with zero
+submission_filled <- submission %>%
+  mutate(Umsatz = ifelse(is.na(Umsatz), 0, Umsatz))
+
 # save predictions as csv-file
-write.csv(submission, "gruppe3_submission.csv", row.names = FALSE)
+write.csv(submission_filled, "gruppe3_submission.csv", row.names = FALSE)
 ```
 
 
