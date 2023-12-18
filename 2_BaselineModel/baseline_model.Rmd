@@ -70,6 +70,54 @@ training_data2 %>% distinct(Temperatur_bins) %>% arrange(Temperatur_bins)
 The last step will be setting up the linear model equation with the training data set and searching for the model with the best adjusted R-squared value.
 
 ```{r}
+
+#creating temperature bins labeled as 'Low', 'Medium', and 'High' 
+# show distribution of data
+hist(training_data$Temperatur)
+# Define bin edges
+bin_edges <- c(-Inf, 10, 20, Inf)
+
+# Create bin labels
+bin_labels <- c('Low', 'Medium', 'High')
+
+
+# Use cut to assign values to bins
+training_data$Temperature_Bin <- cut(training_data$Temperatur, breaks = bin_edges, labels = bin_labels, include.lowest = TRUE)
+
+# Print the updated dataframe
+print(training_data)
+# model 1
+mod_N <- lm(Umsatz ~ as.factor(Warengruppe) + as.factor(Temperature_Bin)+ as.factor(Wochenende), training_data)
+summary(mod_N)
+
+#plotting graph
+library(ggplot2)
+
+ggplot(data = training_data, aes(x = Temperature_Bin, y = Umsatz)) +
+         geom_bar(stat = "identity",position = "dodge")+
+         theme_bw() 
+```
+
+
+```{r}
+#creating another variable named season 
+#
+library(dplyr)
+training_data <- training_data %>%
+  mutate(season = ifelse(month(Datum) %in% c(3, 4, 5), "Spring",
+                         ifelse(month(Datum) %in% c(6, 7, 8), "Summer",
+                                ifelse(month(Datum) %in% c(9, 10, 11), "Fall", "Winter"))))
+
+# Print the updated dataframe
+print(training_data)
+mod_N <- lm(Umsatz ~ as.factor(Warengruppe) + as.factor(Temperature_Bin)+ as.factor(Wochenende)+season, training_data)
+summary(mod_N)
+#Adjusted R-squared:  0.7228 
+```
+```
+
+
+```{r}
 # model 1
 mod1 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins, training_data1)
 summary(mod1)
