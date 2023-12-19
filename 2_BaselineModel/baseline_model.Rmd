@@ -1,0 +1,191 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+In this notebook, the baseline model for the data set called "data" will be documented.
+
+First, the data will be arranged by date and then divided into a training data set (01.07.2013 until 31.07.2017) and a validation data set (01.08.2017 until 31.07.2018).
+
+```{r}
+# import libraries
+library("readr")
+library("dplyr")
+
+# load csv-file with all data
+data <- read_csv("../0_DataPreparation/data.csv")
+
+# sort data by Datum
+data_sorted <- data %>% arrange(Datum)
+head(data_sorted)
+
+# delete unnecessary rows without Umsatz-data, which starts at 2013-07-01
+data_sorted_filter <- data_sorted %>%
+  filter(Datum >= as.Date('2013-07-01'))
+
+# divide data into training and validation set
+training_data <- data_sorted_filter %>% filter(Datum <= "2017-07-31")
+validation_data <- data_sorted_filter %>% filter(Datum >= "2017-08-01" & Datum <= "2018-07-31")
+test_data2 <- data_sorted_filter %>% filter(Datum >= "2018-08-01")
+
+# check new data sets
+head(training_data)
+head(validation_data)
+```
+
+Before the linear regression, all variables will be looked at in case they need to be adjusted:
+
+- Warengruppe -> use as a category
+- KielerWoche -> boolean, use as is 
+- Bewoelkung -> is linear, use as is
+- Temperatur -> is not linear, needs to be used as a binned category
+- Windgeschwindigkeit -> is linear, use as is
+- Wettercode -> too many missing values and therefore currently not useful
+- Schulferien -> boolean, use as is
+- Wochenende -> boolean, use as is
+
+```{r}
+# How to bin the temperature data?
+# looking at the min, max and mean
+summary(training_data$Temperatur)  # data ranges from -8.475 to 31.438 degrees
+
+# show distribution of data
+hist(training_data$Temperatur)
+
+# approach one: create 8 bins of equal width for the temperature
+training_data1 <- training_data %>%
+  mutate(Temperatur_bins = cut(Temperatur, 8, include.lowest = TRUE))
+
+# check new added temperature_bins column and its unique values
+head(training_data1)
+training_data1 %>% distinct(Temperatur_bins) %>% arrange(Temperatur_bins)
+
+# approach two: create 7 manual bins
+training_data2 <- training_data %>%
+  mutate(Temperatur_bins = cut(Temperatur, 
+                               breaks = c(-10, 0, 5, 10, 15, 20, 25, 35), 
+                               include.lowest = TRUE))
+
+# check new added temperature_bins column and its unique values
+head(training_data2)
+training_data2 %>% distinct(Temperatur_bins) %>% arrange(Temperatur_bins)
+
+```
+
+The last step will be setting up the linear model equation with the training data set and searching for the model with the best adjusted R-squared value.
+
+```{r}
+# model 1
+mod1 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins, training_data1)
+summary(mod1)
+```
+
+Model 1: Adjusted R-squared:  0.6876
+
+Almost all variables seem to be relevant and will be kept for further the models.
+
+```{r}
+# model 2
+mod2 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Bewoelkung, training_data1)
+summary(mod2)
+```
+
+Model 2: Adjusted R-squared:  0.6877
+
+The R-squared is just slightly better than model 1, but the p-value of Bewoelkung indicates that it is not as relevant to the model as most of the other variables. It will be not be used in the next model.
+
+```{r}
+# model 3
+mod3 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Windgeschwindigkeit, training_data1)
+summary(mod3)
+```
+
+Model 3: Adjusted R-squared:  0.6878
+
+The R-squared is again just slightly better than model 1, the p-value of Windgeschwindigkeit indicates that it is relevant to the model, but less relevant than most other variables.
+
+```{r}
+# model 4
+mod4 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Windgeschwindigkeit + Wochenende, training_data1)
+summary(mod4)
+```
+
+Model 4: Adjusted R-squared:  0.713 
+
+This is so far the best R-squared. The p-value of the variable Windgeschwindigkeit indicates, that it is less relevant and will not be used in the next model.
+
+
+```{r}
+# model 5
+mod5 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende, training_data1)
+summary(mod5)
+```
+
+Model 5: Adjusted R-squared:  0.7129
+
+This models R-squared differs from model 4 by only 0.0001, but works without the variable Windgeschwindigkeit. Therefore, it won't be considered in the following model.
+
+```{r}
+# model 6
+mod6 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien,            training_data1)
+summary(mod6)
+```
+
+Model 6: Adjusted R-squared:  0.7311
+
+This model with the additional features KielerWoche and Schulferien is even better than the one before.
+
+```{r}
+# model 7 with training_data2
+mod7 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien,            training_data2)
+summary(mod7)
+```
+
+Model 7: Adjusted R-squared:  0.7318
+
+Again, this model with the 7 manually chosen bins is slightly better than the one with the 8 automatically created bins. This can be considered the best model for now.
+How about even less bins?
+
+```{r}
+# approach three: create 4 manual bins
+training_data3 <- training_data %>%
+  mutate(Temperatur_bins = cut(Temperatur, 
+                               breaks = c(-10, 0, 10, 20, 35), 
+                               include.lowest = TRUE))
+
+# check new added temperature_bins column and its unique values
+head(training_data3)
+training_data3 %>% distinct(Temperatur_bins) %>% arrange(Temperatur_bins)
+
+# model 8 with training_data3
+mod8 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien,            training_data3)
+summary(mod8)
+```
+
+Model 8: Adjusted R-squared:  0.7274 
+
+The R-squared is smaller than before, so the model 7 with 7 bins is be the best option for now.
+
+
+
+Preparation for the next step of putting model 7 to use:
+
+```{r}
+# create 7 manual bins for validation data and test data as well
+validation_data2 <- validation_data %>%
+  mutate(Temperatur_bins = cut(Temperatur, 
+                               breaks = c(-10, 0, 5, 10, 15, 20, 25, 35), 
+                               include.lowest = TRUE))
+
+test_data2 <- test_data2 %>%
+  mutate(Temperatur_bins = cut(Temperatur, 
+                               breaks = c(-10, 0, 5, 10, 15, 20, 25, 35), 
+                               include.lowest = TRUE))
+
+head(validation_data2)
+
+# save the training and validation data as csv-files for the next step
+write.csv(training_data2, file = "../3_Model/training_data2.csv", row.names = FALSE)
+write.csv(validation_data2, file = "../3_Model/validation_data2.csv", row.names = FALSE)
+write.csv(test_data2, file = "../3_Model/test_data2.csv", row.names = FALSE)
+```
