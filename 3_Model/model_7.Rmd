@@ -51,6 +51,13 @@ rmse <- sqrt(mean((comparison$actual - comparison$predicted)^2, na.rm = TRUE))
 head(comparison)
 cat("Root Mean Squared Error (RMSE):", rmse, "\n")
 
+# calculate the Mean Absolute Percentage Error (MAPE)
+mape <- mean(abs((comparison$actual - comparison$predicted)/comparison$actual), na.rm = TRUE) * 100
+
+# Display the comparison and RMSE
+head(comparison)
+cat("Mean Absolute Percentage Error (MAPE):", mape, "\n")
+
 ```
 
 ### What is our conclusion?? 
@@ -72,7 +79,6 @@ submission_filled <- submission %>%
 
 # save predictions as csv-file
 write.csv(submission_filled, "gruppe3_submission.csv", row.names = FALSE)
-
 
 ```
 
