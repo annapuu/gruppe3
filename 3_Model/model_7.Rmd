@@ -63,6 +63,7 @@ predicted_test_values <- predict(mod7, newdata = test_data)
 submission$Umsatz <- predicted_test_values
 head(submission)
 
+# check for missing values
 sum(is.na(submission))
 
 # fill missing values with zero
