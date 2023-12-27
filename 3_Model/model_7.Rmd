@@ -60,7 +60,8 @@ cat("Mean Absolute Percentage Error (MAPE):", mape, "\n")
 
 ```
 
-### What is our conclusion?? 
+The Mean Absolute Percentage Error is 34.48991 which is still quite high and indicates a reasonable forecasting.
+
 
 ```{r}
 # make predictions with model 7 for test data
@@ -81,5 +82,3 @@ submission_filled <- submission %>%
 write.csv(submission_filled, "gruppe3_submission.csv", row.names = FALSE)
 
 ```
-
-
