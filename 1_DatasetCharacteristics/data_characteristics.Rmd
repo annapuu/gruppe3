@@ -49,6 +49,9 @@ bar_schulferien <- ggplot(mean_umsatz_schulferien) +
   ggtitle("Durchschnittlicher Umsatz während der offiziellen Schulferien") +
     theme_minimal()
 bar_schulferien
+
+# save plot as image file
+ggsave("bar_schulferien.jpeg", plot = bar_schulferien)
 ```
 
 Creating a bar plot that shows the average sales (Umsatz) across all product groups by weekend (Wochenende).
@@ -74,6 +77,9 @@ bar_wochenende <- ggplot(mean_umsatz_wochenende) +
   ggtitle("Durchschnittlicher Umsatz am Wochenende") +
     theme_minimal()
 bar_wochenende
+
+# save plot as image file
+ggsave("bar_wochenende.jpeg", plot = bar_wochenende)
 ```
 
 Creating a bar plot that shows the average sales (Umsatz) across all product groups by weekday (Wochentag).
@@ -108,6 +114,9 @@ bar_wochentag <- ggplot(mean_umsatz_wochentag) +
   ggtitle("Durchschnittlicher Umsatz je Wochentag") +
     theme_minimal()
 bar_wochentag
+
+# save plot as image file
+ggsave("bar_wochentag.jpeg", plot = bar_wochentag)
 ```
 
 Add error bars for Umsatz to the bar plot.
@@ -136,6 +145,9 @@ bar_wochentag_errorbar <- ggplot(my_sum) +
   ggtitle("Durchschnittlicher Umsatz je Wochentag mit Konfidenzintervall") +
     theme_minimal()
 bar_wochentag_errorbar
+
+# save plot as image file
+ggsave("bar_wochentag_errorbar.jpeg", plot = bar_wochentag_errorbar)
 ```
 
 Create a bar plot with sales by weekday, separated by prodcut group (Warengruppe).
@@ -174,4 +186,7 @@ bar_wochentag_warengruppe <- ggplot(mean_umsatz_wochentag_warengr) +
   facet_wrap(vars(Warengruppe), nrow = 3, labeller = labeller(Warengruppe = warengruppen_liste)) +
     theme_minimal()
 bar_wochentag_warengruppe
+
+# save plot as image file
+ggsave("bar_wochentag_warengruppe.jpeg", plot = bar_wochentag_warengruppe)
 ```
