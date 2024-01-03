@@ -26,62 +26,6 @@ missing_values <- sapply(data, function(x) sum(is.na(x)))
 print(missing_values)
 ```
 
-Creating a bar plot that shows the average sales (Umsatz) across all product groups by school holidays (Schulferien).
-
-```{r}
-# group the data by Schulferien (0 or 1) and calculate the average sale
-mean_umsatz_schulferien <- data %>%
-  group_by(Schulferien) %>%
-  summarise(Durchschnittsumsatz = mean(Umsatz, na.rm = TRUE))
-
-# show grouped dataset
-print(mean_umsatz_schulferien)
-
-# change values of Schulferien for better readability
-mean_umsatz_schulferien$Schulferien[mean_umsatz_schulferien$Schulferien == 0] <- "Nein"
-mean_umsatz_schulferien$Schulferien[mean_umsatz_schulferien$Schulferien == 1] <- "Ja"
-
-# create bar plot
-bar_schulferien <- ggplot(mean_umsatz_schulferien) +
-  aes(x=Schulferien, y=Durchschnittsumsatz) +
-  geom_bar(stat="identity", color="darkblue", fill="darkblue") +
-  geom_text(aes(label=round(Durchschnittsumsatz, digits = 2)), vjust=1.6, color="white", size=4.5)+
-  ggtitle("Durchschnittlicher Umsatz während der offiziellen Schulferien") +
-    theme_minimal()
-bar_schulferien
-
-# save plot as image file
-ggsave("bar_schulferien.jpeg", plot = bar_schulferien)
-```
-
-Creating a bar plot that shows the average sales (Umsatz) across all product groups by weekend (Wochenende).
-
-```{r}
-# group the data by Wochenende (0 or 1) and calculate the average sale
-mean_umsatz_wochenende <- data %>%
-  group_by(Wochenende) %>%
-  summarise(Durchschnittsumsatz = mean(Umsatz, na.rm = TRUE))
-
-# show grouped dataset
-print(mean_umsatz_wochenende)
-
-# change values of Wochenende for better readability
-mean_umsatz_wochenende$Wochenende[mean_umsatz_wochenende$Wochenende == 0] <- "Nein"
-mean_umsatz_wochenende$Wochenende[mean_umsatz_wochenende$Wochenende == 1] <- "Ja"
-
-# create bar plot
-bar_wochenende <- ggplot(mean_umsatz_wochenende) +
-  aes(x=Wochenende, y=Durchschnittsumsatz) +
-  geom_bar(stat="identity", color="darkred", fill="darkred") +
-  geom_text(aes(label=round(Durchschnittsumsatz, digits = 2)), vjust=1.6, color="white", size=4.5)+
-  ggtitle("Durchschnittlicher Umsatz am Wochenende") +
-    theme_minimal()
-bar_wochenende
-
-# save plot as image file
-ggsave("bar_wochenende.jpeg", plot = bar_wochenende)
-```
-
 Creating a bar plot that shows the average sales (Umsatz) across all product groups by weekday (Wochentag).
 
 ```{r}
@@ -189,4 +133,60 @@ bar_wochentag_warengruppe
 
 # save plot as image file
 ggsave("bar_wochentag_warengruppe.jpeg", plot = bar_wochentag_warengruppe)
+```
+
+Creating a bar plot that shows the average sales (Umsatz) across all product groups by school holidays (Schulferien).
+
+```{r}
+# group the data by Schulferien (0 or 1) and calculate the average sale
+mean_umsatz_schulferien <- data %>%
+  group_by(Schulferien) %>%
+  summarise(Durchschnittsumsatz = mean(Umsatz, na.rm = TRUE))
+
+# show grouped dataset
+print(mean_umsatz_schulferien)
+
+# change values of Schulferien for better readability
+mean_umsatz_schulferien$Schulferien[mean_umsatz_schulferien$Schulferien == 0] <- "Nein"
+mean_umsatz_schulferien$Schulferien[mean_umsatz_schulferien$Schulferien == 1] <- "Ja"
+
+# create bar plot
+bar_schulferien <- ggplot(mean_umsatz_schulferien) +
+  aes(x=Schulferien, y=Durchschnittsumsatz) +
+  geom_bar(stat="identity", color="darkblue", fill="darkblue") +
+  geom_text(aes(label=round(Durchschnittsumsatz, digits = 2)), vjust=1.6, color="white", size=4.5)+
+  ggtitle("Durchschnittlicher Umsatz während der offiziellen Schulferien") +
+    theme_minimal()
+bar_schulferien
+
+# save plot as image file
+ggsave("bar_schulferien.jpeg", plot = bar_schulferien)
+```
+
+Creating a bar plot that shows the average sales (Umsatz) across all product groups by weekend (Wochenende).
+
+```{r}
+# group the data by Wochenende (0 or 1) and calculate the average sale
+mean_umsatz_wochenende <- data %>%
+  group_by(Wochenende) %>%
+  summarise(Durchschnittsumsatz = mean(Umsatz, na.rm = TRUE))
+
+# show grouped dataset
+print(mean_umsatz_wochenende)
+
+# change values of Wochenende for better readability
+mean_umsatz_wochenende$Wochenende[mean_umsatz_wochenende$Wochenende == 0] <- "Nein"
+mean_umsatz_wochenende$Wochenende[mean_umsatz_wochenende$Wochenende == 1] <- "Ja"
+
+# create bar plot
+bar_wochenende <- ggplot(mean_umsatz_wochenende) +
+  aes(x=Wochenende, y=Durchschnittsumsatz) +
+  geom_bar(stat="identity", color="darkred", fill="darkred") +
+  geom_text(aes(label=round(Durchschnittsumsatz, digits = 2)), vjust=1.6, color="white", size=4.5)+
+  ggtitle("Durchschnittlicher Umsatz am Wochenende") +
+    theme_minimal()
+bar_wochenende
+
+# save plot as image file
+ggsave("bar_wochenende.jpeg", plot = bar_wochenende)
 ```
