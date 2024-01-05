@@ -91,7 +91,7 @@ cat("Test labels dimensions:", dim(test_labels), "\n")
 ### Export of the prepared data ####
 
 # Create subdirectory for the csv files
-subdirectory <- "csv_data"
+subdirectory <- "csv_df_neural_net"
 dir.create(subdirectory)
 
 # Export of the prepared data to subdirectory
