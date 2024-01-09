@@ -32,15 +32,26 @@ names(data)
 ###################################################
 ### Data Preparation ####
 
+# Pick columns with booleans
+columns_to_float <- c("KielerWoche", "Schulferien", "Wochenende")
+
+# Change booleans to Floats
+data <- data %>%
+  mutate(across(all_of(columns_to_float), as.numeric))
+
+# Check
+print(head(data))
+
+
 # Preparation of independent variables ('features') by dummy coding the categorical variables
 features <- as_tibble(model.matrix(Umsatz ~ as.factor(Warengruppe) +
-                                            as.factor(KielerWoche) +
+                                            KielerWoche +
                                             Bewoelkung +
                                             Temperatur +
                                             Windgeschwindigkeit +
                                             as.factor(Wettercode) +
-                                            as.factor(Schulferien) +
-                                            as.factor(Wochenende),
+                                            Schulferien +
+                                            Wochenende,
                                     data))
 names(features)
 
