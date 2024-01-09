@@ -34,13 +34,13 @@ names(data)
 
 # Preparation of independent variables ('features') by dummy coding the categorical variables
 features <- as_tibble(model.matrix(Umsatz ~ as.factor(Warengruppe) +
-                                            KielerWoche +
-                                            as.factor(Bewoelkung) +
-                                            as.factor(Temperatur) +
-                                            as.factor(Windgeschwindigkeit) +
+                                            as.factor(KielerWoche) +
+                                            Bewoelkung +
+                                            Temperatur +
+                                            Windgeschwindigkeit +
                                             as.factor(Wettercode) +
-                                            Schulferien +
-                                            Wochenende,
+                                            as.factor(Schulferien) +
+                                            as.factor(Wochenende),
                                     data))
 names(features)
 
