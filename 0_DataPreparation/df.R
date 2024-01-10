@@ -4,7 +4,7 @@ library("dplyr")
 # Step 1: Identify and Handle Missing Values
 
 # load data
-df <- read_csv("data.csv")
+df <- read_csv("0_DataPreparation/data.csv")
 test_id <- read_csv(("../3_Model/test.csv"))
 
 # delete unnecessary rows without Umsatz-data before 2013-07-01
