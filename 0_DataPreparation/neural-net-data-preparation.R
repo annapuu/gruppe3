@@ -23,7 +23,7 @@ for (pkg in pkgs) {
 ### Data Import ####
 
 # Reading the data file
-data <- read_csv("0_DataPreparation/df.csv")
+data <- read_csv("df.csv")
 names(data)
 
 
@@ -42,6 +42,10 @@ data <- data %>%
 # Check
 print(head(data))
 
+# fill missing values in Umsatz column with zero
+data <- data %>%
+  mutate(Umsatz = ifelse(is.na(Umsatz), 0, Umsatz))
+
 
 # Preparation of independent variables ('features') by dummy coding the categorical variables
 features <- as_tibble(model.matrix(Umsatz ~ as.factor(Warengruppe) +
@@ -55,9 +59,14 @@ features <- as_tibble(model.matrix(Umsatz ~ as.factor(Warengruppe) +
                                     data))
 names(features)
 
+
+# Handling of missing values (here: only keeping rows without missing values)
+data <- data[complete.cases(data), ]
+
 # Construction of prepared data set
 prepared_data <- tibble(label=data$Umsatz, features) %>%  # inclusion of the dependent variable ('label')
-    filter(complete.cases(.)) # Handling of missing values (here: only keeping rows without missing values)
+  filter(complete.cases(.)) # Handling of missing values (here: only keeping rows without missing values)
+
 
 # Add variable Datum and id to prepared_data for sorting by date in the next step
 Datum <- data$Datum
@@ -89,7 +98,7 @@ training_labels <-
 validation_labels <-
   prepared_data_sorted %>% select(label) %>% filter(Datum >= "2017-08-01" & Datum <= "2018-07-31")
 test_labels <-
-  prepared_data_sorted %>% select(label) %>% filter(Datum >= "2018-08-01")
+  prepared_data_sorted %>% select(label) %>% filter(Datum >= "2018-08-01" & Datum <= "2019-07-30")
 
 
 ###################################################
