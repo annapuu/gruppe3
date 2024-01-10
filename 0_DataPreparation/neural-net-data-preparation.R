@@ -23,7 +23,7 @@ for (pkg in pkgs) {
 ### Data Import ####
 
 # Reading the data file
-data <- read_csv("df.csv")
+data <- read_csv("0_DataPreparation/df.csv")
 names(data)
 
 
