@@ -59,9 +59,13 @@ names(features)
 prepared_data <- tibble(label=data$Umsatz, features) %>%  # inclusion of the dependent variable ('label')
     filter(complete.cases(.)) # Handling of missing values (here: only keeping rows without missing values)
 
-# Add variable Datum to prepared_data for sorting by date in the next step
+# Add variable Datum and id to prepared_data for sorting by date in the next step
 Datum <- data$Datum
 prepared_data <- cbind(Datum, prepared_data)
+head(prepared_data)
+
+id <- data$id
+prepared_data <- cbind(id, prepared_data)
 head(prepared_data)
 
 
@@ -89,14 +93,16 @@ test_labels <-
 
 
 ###################################################
-### delete column Datum in the features datasets ###
+### delete column Datum in the features datasets and id in the first two datasets ###
 
-training_features[1] <- NULL
-validation_features[1] <- NULL
-test_features[1] <- NULL
+training_features[1:2] <- NULL
+validation_features[1:2] <- NULL
+test_features[2] <- NULL
 
-# Check one dataset
-print(head(training_features))
+# Check
+print(names(training_features))
+print(names(validation_features))
+print(names(test_features))
 
 # Check the dimensions of the dataframes
 cat("Training features dimensions:", dim(training_features), "\n")
