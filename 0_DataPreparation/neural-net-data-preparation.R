@@ -87,6 +87,17 @@ validation_labels <-
 test_labels <-
   prepared_data_sorted %>% select(label) %>% filter(Datum >= "2018-08-01")
 
+
+###################################################
+### delete column Datum in the features datasets ###
+
+training_features[1] <- NULL
+validation_features[1] <- NULL
+test_features[1] <- NULL
+
+# Check one dataset
+print(head(training_features))
+
 # Check the dimensions of the dataframes
 cat("Training features dimensions:", dim(training_features), "\n")
 cat("Validation features dimensions:",
