@@ -23,7 +23,7 @@ for (pkg in pkgs) {
 ### Data Import ####
 
 # Reading the data file
-data <- read_csv("0_DataPreparation/df.csv")
+data <- read_csv("0_DataPreparation/df_neural_net.csv")
 names(data)
 
 
@@ -33,11 +33,11 @@ names(data)
 ### Data Preparation ####
 
 # Pick columns with booleans
-columns_to_float <- c("KielerWoche", "Schulferien", "Wochenende")
+#columns_to_float <- c("KielerWoche", "Schulferien", "Wochenende")
 
 # Change booleans to Floats
-data <- data %>%
-  mutate(across(all_of(columns_to_float), as.numeric))
+#data <- data %>%
+#  mutate(across(all_of(columns_to_float), as.numeric))
 
 # Check
 print(head(data))
@@ -60,7 +60,7 @@ features <- as_tibble(model.matrix(Umsatz ~ as.factor(Warengruppe) +
 names(features)
 
 
-# Handling of missing values (here: only keeping rows without missing values)
+# Removing missing values, otherwise the code after this won't work
 data <- data[complete.cases(data), ]
 
 # Construction of prepared data set
