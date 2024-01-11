@@ -3,7 +3,7 @@ library("readr")
 library("dplyr")
 
 
-### Step 1: Identify and Handle Missing Values
+### Step 1: Load data
 
 # load data
 df <- read_csv("0_DataPreparation/data.csv")
