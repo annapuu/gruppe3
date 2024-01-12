@@ -34,12 +34,12 @@ head(test_data)
 
 
 ```{r}
-# make predictions with model 7 and compare with actual values of validation data
-# model 7, our baseline model
-mod7 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien,             training_data2)
+# make predictions with model 9 and compare with actual values of validation data
+# model 9, our baseline model
+mod9 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien + Feiertag + Season, training_data2)
 
 # make predictions for validation data
-predicted_values <- predict(mod7, newdata = validation_data2)
+predicted_values <- predict(mod9, newdata = validation_data2)
 
 # compare the predicted values with the actual values of validation data
 comparison <- data.frame(actual = validation_data2$Umsatz, predicted = predicted_values)
@@ -60,12 +60,12 @@ cat("Mean Absolute Percentage Error (MAPE):", mape, "\n")
 
 ```
 
-The Mean Absolute Percentage Error is 34.48991 which is still quite high and indicates a reasonable forecasting.
+The Mean Absolute Percentage Error is 33.8937 which is still quite high and indicates a reasonable forecasting.
 
 
 ```{r}
-# make predictions with model 7 for test data
-predicted_test_values <- predict(mod7, newdata = test_data)
+# make predictions with model 9 for test data
+predicted_test_values <- predict(mod9, newdata = test_data)
 
 # save predictions as dataframe
 submission$Umsatz <- predicted_test_values
@@ -79,6 +79,7 @@ submission_filled <- submission %>%
   mutate(Umsatz = ifelse(is.na(Umsatz), 0, Umsatz))
 
 # save predictions as csv-file
-write.csv(submission_filled, "gruppe3_submission.csv", row.names = FALSE)
+# write.csv(submission_filled, "gruppe3_submission.csv", row.names = FALSE) # for old model 7
+write.csv(submission_filled, "gruppe3_submission_m9.csv", row.names = FALSE) # for nes model 9
 
 ```

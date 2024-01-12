@@ -41,8 +41,10 @@ Before the linear regression, all variables will be looked at in case they need 
 - Temperatur -> is not linear, needs to be used as a binned category
 - Windgeschwindigkeit -> is linear, use as is
 - Wettercode -> too many missing values and therefore currently not useful
+- Feiertag -> boolean, use as is
 - Schulferien -> boolean, use as is
 - Wochenende -> boolean, use as is
+- Season -> boolean, use as is
 
 ```{r}
 # How to bin the temperature data?
@@ -143,7 +145,7 @@ summary(mod7)
 
 Model 7: Adjusted R-squared:  0.7318
 
-Again, this model with the 7 manually chosen bins is slightly better than the one with the 8 automatically created bins. This can be considered the best model for now.
+Again, this model with the 7 manually chosen bins is slightly better than the one with the 8 automatically created bins.
 How about even less bins?
 
 ```{r}
@@ -166,9 +168,18 @@ Model 8: Adjusted R-squared:  0.7274
 
 The R-squared is smaller than before, so the model 7 with 7 bins is be the best option for now.
 
+```{r}
+# model 9 with Feiertag and Season
+mod9 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien + Feiertag + Season, training_data2)
+summary(mod9)
+```
+
+Model 9: Adjusted R-squared:  0.7395
+
+This model is again slightly better than model 7, so this one can be considered the best model for now.
 
 
-Preparation for the next step of putting model 7 to use:
+Preparation for the next step of putting model 9 to use:
 
 ```{r}
 # create 7 manual bins for validation data and test data as well
