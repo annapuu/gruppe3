@@ -2,7 +2,7 @@ library(httr)
 library(dplyr)
 library(lubridate)
 
-# Funktion zum Abrufen der Feiertage für ein bestimmtes Jahr und Bundesland
+# Function to get "Feiertage" for certain year/state
 get_feiertage <- function(jahr, land) {
   url <- paste0("https://feiertage-api.de/api/?jahr=", jahr, "&nur_land=", land)
   response <- GET(url)
@@ -10,45 +10,45 @@ get_feiertage <- function(jahr, land) {
   return(feiertage)
 }
 
-# Start- und Enddatum festlegen
+# Concerning period
 start_date <- as.Date("2013-07-01")
 end_date <- as.Date("2017-12-27")
 
-# Liste für Feiertage
+# Liste for "Feiertage"
 feiertage_list <- list()
 
-# Feiertage für jedes Jahr abrufen und speichern
+# calling and saving "Feiertage" for each year
 for (year in seq(year(start_date), year(end_date))) {
   feiertage_year <- get_feiertage(year, "SH")  # SH steht für Schleswig-Holstein
   feiertage_list[[as.character(year)]] <- feiertage_year
 }
 
-# Feiertage in einen einzigen Datenrahmen zusammenführen
+# "Feiertage" in a df
 feiertage_df <- bind_rows(feiertage_list)
 
-# Create a new data frame with the desired format
-feiertage_csv <- data.frame(Date = seq(start_date, end_date, by = "days"))
+# Creating df with the wished date format
+feiertage_csv <- data.frame(Datum = seq(start_date, end_date, by = "days"))
 
-# Fill corresponding columns with 1 for each feiertag hit
+# Filling corresponding rows with 1 for each "Feiertag"
 for (feiertag in colnames(feiertage_df)) {
-  feiertage_csv[[feiertag]] <- as.numeric(feiertage_csv$Date %in% feiertage_df[[feiertag]])
+  feiertage_csv[[feiertag]] <- as.numeric(feiertage_csv$Datum %in% feiertage_df[[feiertag]])
 }
 
-# Save the transformed data frame to CSV
-write.csv(feiertage_csv, "feiertage.csv", row.names = FALSE)
+# Saving transformed data frame in a csv file
+write.csv(feiertage_csv, "feiertage_separated.csv", row.names = FALSE)
 View(feiertage_csv)
 
-# Annahme: Du hast bereits feiertage_csv erstellt
-feiertage_csv <- read.csv("feiertage.csv", stringsAsFactors = FALSE)
+# Loading csv file of the separated "Feiertage" (Each "Feiertag" has its own column in this file)
+# feiertage_csv <- read.csv("feiertage_separated.csv", stringsAsFactors = FALSE)
 
-# Erstelle eine Spalte "Feiertag" basierend auf vorhandenen Feiertags-Spalten
+# Creating a column with the name "Feiertag"
 feiertage_csv$Feiertag <- apply(feiertage_csv[, -1, drop = FALSE], 1, max)
 
-# Entferne die nicht mehr benötigten Spalten
-feiertage_csv <- feiertage_csv[, c("Date", "Feiertag")]
+# Replacing 1st column "Date" with "Datum"
+feiertage_csv <- feiertage_csv[, c("Datum", "Feiertag")]
 
-# Speichere den aktualisierten DataFrame
-write.csv(feiertage_csv, "feiertage_updated.csv", row.names = FALSE)
+# Saving new/updated df
+write.csv(feiertage_csv, "feiertage_compact.csv", row.names = FALSE)
 
-# Anzeigen des aktualisierten DataFrames
+# Showing new/updated df
 View(feiertage_csv)
