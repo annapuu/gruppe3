@@ -55,7 +55,9 @@ features <- as_tibble(model.matrix(Umsatz ~ as.factor(Warengruppe) +
                                             Windgeschwindigkeit +
                                             as.factor(Wettercode) +
                                             Schulferien +
-                                            Wochenende,
+                                            Feiertag +
+                                            Wochenende +
+                                            as.factor(Season),
                                     data))
 names(features)
 
