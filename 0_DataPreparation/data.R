@@ -8,12 +8,14 @@ d1 <- read_csv("0_DataPreparation/train_kaggle.csv")
 d2 <- read_csv("0_DataPreparation/kiwo.csv")
 d3 <- read_csv("0_DataPreparation/wetter.csv")
 d4 <- read_csv("0_DataPreparation/schulferien.csv")
+# d5 <- read_csv("0_DataPreparation/feiertage_compact.csv")
 
 # create a single dataset (tibble)
 data <- d1 %>%
   full_join(d2, by = "Datum") %>%
   full_join(d3, by = "Datum") %>%
-  full_join(d4, by = "Datum")
+  full_join(d4, by = "Datum") # %>%
+  # full_join(d5, by = "Datum")
 
 # create a new column for the variable weekend
 data <- data %>%
