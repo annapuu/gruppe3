@@ -37,3 +37,18 @@ for (feiertag in colnames(feiertage_df)) {
 # Save the transformed data frame to CSV
 write.csv(feiertage_csv, "feiertage.csv", row.names = FALSE)
 View(feiertage_csv)
+
+# Annahme: Du hast bereits feiertage_csv erstellt
+feiertage_csv <- read.csv("feiertage.csv", stringsAsFactors = FALSE)
+
+# Erstelle eine Spalte "Feiertag" basierend auf vorhandenen Feiertags-Spalten
+feiertage_csv$Feiertag <- apply(feiertage_csv[, -1, drop = FALSE], 1, max)
+
+# Entferne die nicht mehr benötigten Spalten
+feiertage_csv <- feiertage_csv[, c("Date", "Feiertag")]
+
+# Speichere den aktualisierten DataFrame
+write.csv(feiertage_csv, "feiertage_updated.csv", row.names = FALSE)
+
+# Anzeigen des aktualisierten DataFrames
+View(feiertage_csv)
