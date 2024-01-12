@@ -12,7 +12,7 @@ get_feiertage <- function(jahr, land) {
 
 # Concerning period
 start_date <- as.Date("2013-07-01")
-end_date <- as.Date("2017-12-27")
+end_date <- as.Date("2019-07-30")
 
 # List for "Feiertage"
 feiertage_list <- list()
