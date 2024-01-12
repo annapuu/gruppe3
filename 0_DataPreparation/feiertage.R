@@ -14,7 +14,7 @@ get_feiertage <- function(jahr, land) {
 start_date <- as.Date("2013-07-01")
 end_date <- as.Date("2017-12-27")
 
-# Liste for "Feiertage"
+# List for "Feiertage"
 feiertage_list <- list()
 
 # calling and saving "Feiertage" for each year
@@ -36,7 +36,7 @@ for (feiertag in colnames(feiertage_df)) {
 
 # Saving transformed data frame in a csv file
 write.csv(feiertage_csv, "feiertage_separated.csv", row.names = FALSE)
-View(feiertage_csv)
+# View(feiertage_csv)
 
 # Loading csv file of the separated "Feiertage" (Each "Feiertag" has its own column in this file)
 # feiertage_csv <- read.csv("feiertage_separated.csv", stringsAsFactors = FALSE)
