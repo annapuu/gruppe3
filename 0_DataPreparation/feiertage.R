@@ -35,7 +35,7 @@ for (feiertag in colnames(feiertage_df)) {
 }
 
 # Saving transformed data frame in a csv file
-write.csv(feiertage_csv, "feiertage_separated.csv", row.names = FALSE)
+write.csv(feiertage_csv, "0_DataPreparation/feiertage_separated.csv", row.names = FALSE)
 # View(feiertage_csv)
 
 # Loading csv file of the separated "Feiertage" (Each "Feiertag" has its own column in this file)
@@ -48,7 +48,7 @@ feiertage_csv$Feiertag <- apply(feiertage_csv[, -1, drop = FALSE], 1, max)
 feiertage_csv <- feiertage_csv[, c("Datum", "Feiertag")]
 
 # Saving new/updated df
-write.csv(feiertage_csv, "feiertage_compact.csv", row.names = FALSE)
+write.csv(feiertage_csv, "0_DataPreparation/feiertage_compact.csv", row.names = FALSE)
 
 # Showing new/updated df
 View(feiertage_csv)
