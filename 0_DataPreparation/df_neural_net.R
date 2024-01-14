@@ -27,45 +27,41 @@ df <- subset(df, select = -c(id.x, id.y, Warengruppe.x, Warengruppe.y))
 df <- df %>% relocate(id)
 df <- df %>% relocate(Warengruppe, .after = Datum)
 
+# Initialize 'Imputation' column with 0
+df$Imputation <- 0
+
 ### Step 3: Handling of Missing Values
+
 # Checking for missing values
 miss_var_summary(df)
 
-# Add a column 'Imputation' initialized with 0
-df$Imputation <- 0
+# Replace missing values in 'Bewoelkung' with the value of the day before and update 'Imputation'
+df$Bewoelkung <- ifelse(is.na(df$Bewoelkung), lag(df$Bewoelkung), df$Bewoelkung)
+# df$Imputation[df$Imputation == 0 & !is.na(lag(df$Bewoelkung))] <- 1
 
-# Function to perform imputation and update 'Imputation' column
-perform_imputation <- function(column_name, imputation_condition, imputation_value) {
-  df <<- df %>%
-    mutate({{column_name}} := ifelse(imputation_condition, imputation_value, {{column_name}}),
-           Imputation = ifelse(imputation_condition, 1, Imputation))
-}
+# Calculate the mean of three days before and after for 'Temperatur' and update 'Imputation'
+df$Temperatur <- ifelse(is.na(df$Temperatur),
+                        (lag(df$Temperatur, 3) + lag(df$Temperatur, 2) + lag(df$Temperatur, 1) +
+                           lead(df$Temperatur, 1) + lead(df$Temperatur, 2) + lead(df$Temperatur, 3)) / 6,
+                        df$Temperatur)
+# df$Imputation[df$Imputation == 0 & !is.na(lag(df$Temperatur))] <- 1
 
-# Replace missing values in 'Bewoelkung' with the value of the day before
-perform_imputation("Bewoelkung", is.na(df$Bewoelkung), lag(df$Bewoelkung))
+# Calculate the mean of three days before and after for 'Windgeschwindigkeit' and update 'Imputation'
+df$Windgeschwindigkeit <- ifelse(is.na(df$Windgeschwindigkeit),
+                                 (lag(df$Windgeschwindigkeit, 3) + lag(df$Windgeschwindigkeit, 2) +
+                                    lag(df$Windgeschwindigkeit, 1) + lead(df$Windgeschwindigkeit, 1) +
+                                    lead(df$Windgeschwindigkeit, 2) + lead(df$Windgeschwindigkeit, 3)) / 6,
+                                 df$Windgeschwindigkeit)
+# df$Imputation[df$Imputation == 0 & !is.na(lag(df$Windgeschwindigkeit))] <- 1
 
-# Replace missing values in 'Wettercode' with the value of the day before
-perform_imputation("Wettercode", is.na(df$Wettercode), lag(df$Wettercode))
+# Replace missing values in 'Wettercode' with the value of the day before and update 'Imputation'
+df$Wettercode <- ifelse(is.na(df$Wettercode), lag(df$Wettercode), df$Wettercode)
+# df$Imputation[df$Imputation == 0 & !is.na(lag(df$Wettercode))] <- 1
 
-# Calculate the mean of three days before and after for 'Temperatur'
-mean_temp <- (lag(df$Temperatur, 3) + lag(df$Temperatur, 2) + lag(df$Temperatur, 1) +
-                lead(df$Temperatur, 1) + lead(df$Temperatur, 2) + lead(df$Temperatur, 3)) / 6
-# Replace missing values in 'Temperatur' with the calculated mean
-perform_imputation("Temperatur", is.na(df$Temperatur), mean_temp)
 
-# Calculate the mean of three days before and after for 'Windgeschwindigkeit'
-mean_wind <- (lag(df$Windgeschwindigkeit, 3) + lag(df$Windgeschwindigkeit, 2) + lag(df$Windgeschwindigkeit, 1) +
-                lead(df$Windgeschwindigkeit, 1) + lead(df$Windgeschwindigkeit, 2) + lead(df$Windgeschwindigkeit, 3)) / 6
-# Replace missing values in 'Windgeschwindigkeit' with the calculated mean
-perform_imputation("Windgeschwindigkeit", is.na(df$Windgeschwindigkeit), mean_wind)
-
-# Function to perform imputation and update 'Imputation' column
-perform_imputation <- function(column_name, imputation_condition, imputation_value) {
-  df <<- df %>%
-    mutate({{column_name}} := ifelse(imputation_condition, imputation_value, {{column_name}}),
-           Imputation = ifelse(imputation_condition, 1, Imputation))
-}
 # Checking for missing values after imputation
+csv_file_path <- "0_DataPreparation/df_neural_net_imputation_check.csv"
+write.csv(df, csv_file_path, row.names = FALSE)
 miss_var_summary(df)
 
 # Remove rows with missing values
@@ -76,8 +72,7 @@ dim(df)
 # Check
 print(sapply(df, function(x) sum(is.na(x))))
 
-
-### Step 4: Save as csv-file
+### Step 4: Save as a csv-file
 # Specify the path where you want to save the CSV file
 csv_file_path <- "0_DataPreparation/df_neural_net.csv"
 
