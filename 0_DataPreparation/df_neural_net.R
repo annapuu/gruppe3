@@ -1,73 +1,72 @@
-# import library
+# Import libraries
 library("readr")
 library("dplyr")
-library(naniar)
-library(zoo)
-
+library("naniar")
+library("zoo")
 
 ### Step 1: Load data
-
-# load data
 df <- read_csv("0_DataPreparation/data.csv")
 test_id <- read_csv("3_Model/test.csv")
 
-# delete unnecessary rows without Umsatz-data before 2013-07-01
+# Delete unnecessary rows without Umsatz-data before 2013-07-01
 df <- df %>%
   filter(Datum >= as.Date('2013-07-01'))
-
 
 ### Step 2: Join dataset with the test data variables
 df <- df %>%
   left_join(test_id, by = "Datum")
 
-# Check
-names(df)
-
-# merge id and Warengruppe
+# Merge id and Warengruppe
 df$id <- coalesce(df$id.x, df$id.y)
 df$Warengruppe <- coalesce(df$Warengruppe.x, df$Warengruppe.y)
-
-# Check
-names(df)
 
 # Remove unneeded columns
 df <- subset(df, select = -c(id.x, id.y, Warengruppe.x, Warengruppe.y))
 
-# Check
-names(df)
-
-# Put id at the start of the dataset and Warengruppe at third place
+# Put id at the start of the dataset and Warengruppe at the third place
 df <- df %>% relocate(id)
-df <- df %>% relocate(Warengruppe, .after=Datum)
-
-# Check
-names(df)
-
+df <- df %>% relocate(Warengruppe, .after = Datum)
 
 ### Step 3: Handling of Missing Values
-
 # Checking for missing values
 miss_var_summary(df)
-# -> delete: id, Warengruppe
-#  -> Bewoelkung: take value of the day before
-#  -> Temperatur: mean of three days before and after
-# -> Windgeschwindigkeit: mean of three days before and after
-# -> Wettercode: take value of the day before
+
+# Add a column 'Imputation' initialized with 0
+df$Imputation <- 0
+
+# Function to perform imputation and update 'Imputation' column
+perform_imputation <- function(column_name, imputation_condition, imputation_value) {
+  df <<- df %>%
+    mutate({{column_name}} := ifelse(imputation_condition, imputation_value, {{column_name}}),
+           Imputation = ifelse(imputation_condition, 1, Imputation))
+}
+
 # Replace missing values in 'Bewoelkung' with the value of the day before
-df$Bewoelkung <- ifelse(is.na(df$Bewoelkung), lag(df$Bewoelkung), df$Bewoelkung)
+perform_imputation("Bewoelkung", is.na(df$Bewoelkung), lag(df$Bewoelkung))
 
-# Replace missing values in 'Temperatur' with the mean of three days before and after
-df$Temperatur <- ifelse(is.na(df$Temperatur),
-                        (lag(df$Temperatur, 1) + df$Temperatur + lead(df$Temperatur, 1)) / 3,
-                        df$Temperatur)
-
-# Replace missing values in 'Windgeschwindigkeit' with the mean of three days before and after
-df$Windgeschwindigkeit <- ifelse(is.na(df$Windgeschwindigkeit),
-                                 (lag(df$Windgeschwindigkeit, 1) + df$Windgeschwindigkeit + lead(df$Windgeschwindigkeit, 1)) / 3,
-                                 df$Windgeschwindigkeit)
-miss_var_summary(df)
 # Replace missing values in 'Wettercode' with the value of the day before
-df$Wettercode <- ifelse(is.na(df$Wettercode), lag(df$Wettercode), df$Wettercode)
+perform_imputation("Wettercode", is.na(df$Wettercode), lag(df$Wettercode))
+
+# Calculate the mean of three days before and after for 'Temperatur'
+mean_temp <- (lag(df$Temperatur, 3) + lag(df$Temperatur, 2) + lag(df$Temperatur, 1) +
+                lead(df$Temperatur, 1) + lead(df$Temperatur, 2) + lead(df$Temperatur, 3)) / 6
+# Replace missing values in 'Temperatur' with the calculated mean
+perform_imputation("Temperatur", is.na(df$Temperatur), mean_temp)
+
+# Calculate the mean of three days before and after for 'Windgeschwindigkeit'
+mean_wind <- (lag(df$Windgeschwindigkeit, 3) + lag(df$Windgeschwindigkeit, 2) + lag(df$Windgeschwindigkeit, 1) +
+                lead(df$Windgeschwindigkeit, 1) + lead(df$Windgeschwindigkeit, 2) + lead(df$Windgeschwindigkeit, 3)) / 6
+# Replace missing values in 'Windgeschwindigkeit' with the calculated mean
+perform_imputation("Windgeschwindigkeit", is.na(df$Windgeschwindigkeit), mean_wind)
+
+# Function to perform imputation and update 'Imputation' column
+perform_imputation <- function(column_name, imputation_condition, imputation_value) {
+  df <<- df %>%
+    mutate({{column_name}} := ifelse(imputation_condition, imputation_value, {{column_name}}),
+           Imputation = ifelse(imputation_condition, 1, Imputation))
+}
+# Checking for missing values after imputation
+miss_var_summary(df)
 
 # Remove rows with missing values
 # but keep the missing values in columns id, Umsatz, Warengruppe as they're needed as test features later on
@@ -85,4 +84,3 @@ csv_file_path <- "0_DataPreparation/df_neural_net.csv"
 # Save the processed data as CSV
 write.csv(df, csv_file_path, row.names = FALSE)
 miss_var_summary(df)
-miss_var_summary(data)
