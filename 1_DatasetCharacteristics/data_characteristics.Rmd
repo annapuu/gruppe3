@@ -85,9 +85,13 @@ print(my_sum)
 bar_wochentag_errorbar <- ggplot(my_sum) +
   aes(x=Wochentag, y=mean) +
   geom_bar(stat="identity", color="darkgreen", fill="darkgreen") +
-  geom_errorbar(aes(x=Wochentag, ymin=mean-ic, ymax=mean+ic), width=0.4, colour="orange", alpha=0.9, linewidth=1.5) +
+  geom_errorbar(aes(x=Wochentag, ymin=mean-ic, ymax=mean+ic), width=0.4, colour="orange", alpha=0.9,                   linewidth=1.5) +
+  geom_text(aes(label=paste(round(mean+ic, 2), "\n", round(mean-ic, 2), sep = "")),                                position = position_dodge(0.7), vjust = -0.5, color="black", size=3.5) +
+  # geom_text(aes(label=round(mean, digits = 2)), vjust=-1.6, color="black", size=3.5) +
+  labs(y="Durchschnittsumsatz") +
   ggtitle("Durchschnittlicher Umsatz je Wochentag mit Konfidenzintervall") +
-    theme_minimal()
+  theme_minimal() +
+  coord_cartesian(ylim = c(0, max(my_sum$mean + my_sum$ic) + 20)) # Adjust plot height
 bar_wochentag_errorbar
 
 # save plot as image file
@@ -163,6 +167,44 @@ bar_schulferien
 ggsave("bar_schulferien.jpeg", plot = bar_schulferien)
 ```
 
+Now the same plot with error bars:
+
+```{r}
+# change values of Schulferien for better readability
+data_school <- data %>% mutate(Schulferien = recode(Schulferien, '0' = 'Nein', '1' = 'Ja')) 
+
+# Calculate confidence interval (ic) (from r graph gallery)
+  # Calculates mean, sd, se and iC
+my_sum_school <- data_school %>%
+  group_by(Schulferien) %>%
+  summarise( 
+    n=n(),
+    mean=mean(Umsatz, na.rm = TRUE),
+    sd=sd(Umsatz, na.rm = TRUE)
+  ) %>%
+  mutate( se=sd/sqrt(n))  %>%
+  mutate( ic=se * qt((1-0.05)/2 + .5, n-1))
+   # check
+print(my_sum_school)
+
+# create bar plot with error bars
+bar_schulferien_errorbar <- ggplot(my_sum_school) +
+  aes(x=Schulferien, y=mean) +
+  geom_bar(stat="identity", color="darkblue", fill="darkblue") +
+  geom_errorbar(aes(x=Schulferien, ymin=mean-ic, ymax=mean+ic), width=0.4, colour="orange", alpha=0.9,                   linewidth=1.5) +
+  geom_text(aes(label=paste(round(mean+ic, 2), "\n", round(mean-ic, 2), sep = "")),                                position = position_dodge(0.7), vjust = -0.5, color="black", size=3.5) +
+  # geom_text(aes(label=round(mean, digits = 2)), vjust=-1.6, color="black", size=3.5) +
+  labs(y="Durchschnittsumsatz") +
+  ggtitle("Durchschnittlicher Umsatz während der Schulferien mit Konfidenzintervall") +
+  theme_minimal() +
+  coord_cartesian(ylim = c(0, max(my_sum_school$mean + my_sum_school$ic) + 20)) # Adjust plot height
+bar_schulferien_errorbar
+
+# save plot as image file
+ggsave("bar_schulferien_errorbar.jpeg", plot = bar_schulferien_errorbar)
+```
+
+
 Creating a bar plot that shows the average sales (Umsatz) across all product groups by weekend (Wochenende).
 
 ```{r}
@@ -190,3 +232,41 @@ bar_wochenende
 # save plot as image file
 ggsave("bar_wochenende.jpeg", plot = bar_wochenende)
 ```
+
+The same bar plot now with error bars:
+
+```{r}
+# change values of Wochenende for better readability
+data_weekend <- data %>% mutate(Wochenende = recode(Wochenende, '0' = 'Nein', '1' = 'Ja')) 
+
+# Calculate confidence interval (ic) (from r graph gallery)
+  # Calculates mean, sd, se and iC
+my_sum_weekend <- data_weekend %>%
+  group_by(Wochenende) %>%
+  summarise( 
+    n=n(),
+    mean=mean(Umsatz, na.rm = TRUE),
+    sd=sd(Umsatz, na.rm = TRUE)
+  ) %>%
+  mutate( se=sd/sqrt(n))  %>%
+  mutate( ic=se * qt((1-0.05)/2 + .5, n-1))
+   # check
+print(my_sum_weekend)
+
+# create bar plot with error bars
+bar_wochenende_errorbar <- ggplot(my_sum_weekend) +
+  aes(x=Wochenende, y=mean) +
+  geom_bar(stat="identity", color="darkred", fill="darkred") +
+  geom_errorbar(aes(x=Wochenende, ymin=mean-ic, ymax=mean+ic), width=0.4, colour="orange", alpha=0.9,                   linewidth=1.5) +
+  geom_text(aes(label=paste(round(mean+ic, 2), "\n", round(mean-ic, 2), sep = "")),                                position = position_dodge(0.7), vjust = -0.5, color="black", size=3.5) +
+  # geom_text(aes(label=round(mean, digits = 2)), vjust=-1.6, color="black", size=3.5) +
+  labs(y="Durchschnittsumsatz") +
+  ggtitle("Durchschnittlicher Umsatz am Wochenende mit Konfidenzintervall") +
+  theme_minimal() +
+  coord_cartesian(ylim = c(0, max(my_sum_weekend$mean + my_sum_weekend$ic) + 20)) # Adjust plot height
+bar_wochenende_errorbar
+
+# save plot as image file
+ggsave("bar_wochenende_errorbar.jpeg", plot = bar_wochenende_errorbar)
+```
+
