@@ -2,6 +2,7 @@
 library("readr")
 library("dplyr")
 library(naniar)
+library(zoo)
 
 
 ### Step 1: Load data
@@ -47,6 +48,26 @@ names(df)
 
 # Checking for missing values
 miss_var_summary(df)
+# -> delete: id, Warengruppe
+#  -> Bewoelkung: take value of the day before
+#  -> Temperatur: mean of three days before and after
+# -> Windgeschwindigkeit: mean of three days before and after
+# -> Wettercode: take value of the day before
+# Replace missing values in 'Bewoelkung' with the value of the day before
+df$Bewoelkung <- ifelse(is.na(df$Bewoelkung), lag(df$Bewoelkung), df$Bewoelkung)
+
+# Replace missing values in 'Temperatur' with the mean of three days before and after
+df$Temperatur <- ifelse(is.na(df$Temperatur),
+                        (lag(df$Temperatur, 1) + df$Temperatur + lead(df$Temperatur, 1)) / 3,
+                        df$Temperatur)
+
+# Replace missing values in 'Windgeschwindigkeit' with the mean of three days before and after
+df$Windgeschwindigkeit <- ifelse(is.na(df$Windgeschwindigkeit),
+                                 (lag(df$Windgeschwindigkeit, 1) + df$Windgeschwindigkeit + lead(df$Windgeschwindigkeit, 1)) / 3,
+                                 df$Windgeschwindigkeit)
+miss_var_summary(df)
+# Replace missing values in 'Wettercode' with the value of the day before
+df$Wettercode <- ifelse(is.na(df$Wettercode), lag(df$Wettercode), df$Wettercode)
 
 # Remove rows with missing values
 # but keep the missing values in columns id, Umsatz, Warengruppe as they're needed as test features later on
@@ -63,3 +84,5 @@ csv_file_path <- "0_DataPreparation/df_neural_net.csv"
 
 # Save the processed data as CSV
 write.csv(df, csv_file_path, row.names = FALSE)
+miss_var_summary(df)
+miss_var_summary(data)
