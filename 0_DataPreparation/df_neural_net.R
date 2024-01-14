@@ -60,8 +60,8 @@ df$Wettercode <- ifelse(is.na(df$Wettercode), lag(df$Wettercode), df$Wettercode)
 
 
 # Checking for missing values after imputation
-csv_file_path <- "0_DataPreparation/df_neural_net_imputation_check.csv"
-write.csv(df, csv_file_path, row.names = FALSE)
+#csv_file_path <- "0_DataPreparation/df_neural_net_imputation_check.csv"
+#write.csv(df, csv_file_path, row.names = FALSE)
 miss_var_summary(df)
 
 # Remove rows with missing values
