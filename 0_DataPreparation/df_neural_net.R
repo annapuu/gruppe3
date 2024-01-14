@@ -1,6 +1,7 @@
 # import library
 library("readr")
 library("dplyr")
+library(naniar)
 
 
 ### Step 1: Load data
@@ -45,8 +46,7 @@ names(df)
 ### Step 3: Handling of Missing Values
 
 # Checking for missing values
-missing_values <- sapply(df, function(x) sum(is.na(x)))
-print(missing_values)
+miss_var_summary(df)
 
 # Remove rows with missing values
 # but keep the missing values in columns id, Umsatz, Warengruppe as they're needed as test features later on
