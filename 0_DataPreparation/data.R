@@ -8,7 +8,7 @@ d1 <- read_csv("0_DataPreparation/train_kaggle.csv")
 d2 <- read_csv("0_DataPreparation/kiwo.csv")
 d3 <- read_csv("0_DataPreparation/wetter.csv")
 d4 <- read_csv("0_DataPreparation/schulferien.csv")
-d5 <- read_csv("0_DataPreparation/feiertage_compact.csv")
+d5 <- read_csv("0_DataPreparation/feiertage.csv")
 
 # create a single dataset (tibble)
 data <- d1 %>%
