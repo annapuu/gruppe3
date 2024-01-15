@@ -36,6 +36,7 @@ df$Imputation <- 0
 miss_var_summary(df)
 
 # Replace missing values in 'Bewoelkung' with the value of the day before and update 'Imputation'
+# 0-8 (8max)
 df$Bewoelkung <- ifelse(is.na(df$Bewoelkung), lag(df$Bewoelkung), df$Bewoelkung)
 # df$Imputation[df$Imputation == 0 & !is.na(lag(df$Bewoelkung))] <- 1
 
@@ -47,6 +48,7 @@ df$Temperatur <- ifelse(is.na(df$Temperatur),
 # df$Imputation[df$Imputation == 0 & !is.na(lag(df$Temperatur))] <- 1
 
 # Calculate the mean of three days before and after for 'Windgeschwindigkeit' and update 'Imputation'
+# Unit: m/s
 df$Windgeschwindigkeit <- ifelse(is.na(df$Windgeschwindigkeit),
                                  (lag(df$Windgeschwindigkeit, 3) + lag(df$Windgeschwindigkeit, 2) +
                                     lag(df$Windgeschwindigkeit, 1) + lead(df$Windgeschwindigkeit, 1) +
