@@ -66,13 +66,11 @@ df$Wettercode <- ifelse(is.na(df$Wettercode), lag(df$Wettercode), df$Wettercode)
 #write.csv(df, csv_file_path, row.names = FALSE)
 miss_var_summary(df)
 
-# Remove rows with missing values
-# but keep the missing values in columns id, Umsatz, Warengruppe as they're needed as test features later on
-df <- df[complete.cases(df[, c(2, 5, 6, 7, 8, 9, 10, 11)]), ]
-dim(df)
+# Remove rows with missing values in column id
+df <- df[complete.cases(df$id), ]
 
 # Check
-print(sapply(df, function(x) sum(is.na(x))))
+miss_var_summary(df)
 
 ### Step 4: Save as a csv-file
 # Specify the path where you want to save the CSV file
