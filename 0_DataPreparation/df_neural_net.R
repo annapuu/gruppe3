@@ -35,6 +35,10 @@ df$Imputation <- 0
 # Checking for missing values
 miss_var_summary(df)
 
+# sort data by Datum
+df <- df %>% arrange(Datum)
+head(df)
+
 # Replace missing values in 'Bewoelkung' with the value of the day before and update 'Imputation'
 # 0-8 (8max)
 df$Bewoelkung <- ifelse(is.na(df$Bewoelkung), lag(df$Bewoelkung), df$Bewoelkung)

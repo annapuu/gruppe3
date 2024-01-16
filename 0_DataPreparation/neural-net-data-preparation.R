@@ -93,7 +93,7 @@ training_features <-
 validation_features <-
   prepared_data_sorted %>% select(-label) %>% filter(Datum >= "2017-08-01" & Datum <= "2018-07-31")
 test_features <-
-  prepared_data_sorted %>% select(-label) %>% filter(Datum >= "2018-08-01")
+  prepared_data_sorted %>% select(-label) %>% filter(Datum >= "2018-08-01" & Datum <= "2019-07-30")
 
 training_labels <-
   prepared_data_sorted %>% select(label) %>% filter(Datum <= "2017-07-31")
