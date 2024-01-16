@@ -270,3 +270,68 @@ bar_wochenende_errorbar
 ggsave("bar_wochenende_errorbar.jpeg", plot = bar_wochenende_errorbar)
 ```
 
+Creating a bar plot that shows the average sales (Umsatz) across all product groups by Season.
+
+```{r}
+# sort season variable
+data$Season <- factor(data$Season, levels=c("Spring", "Summer", "Fall", "Winter"))
+
+# group the data by Season and calculate the average sale
+mean_umsatz_season <- data %>%
+  group_by(Season) %>%
+  summarise(Durchschnittsumsatz = mean(Umsatz, na.rm = TRUE))
+
+# show grouped dataset
+print(mean_umsatz_season)
+
+# create bar plot
+bar_season <- ggplot(mean_umsatz_season) +
+  aes(x=Season, y=Durchschnittsumsatz) +
+  geom_bar(stat="identity", color="darkturquoise", fill="darkturquoise") +
+  geom_text(aes(label=round(Durchschnittsumsatz, digits = 2)), vjust=1.6, color="white", size=4.5)+
+  labs(x="Jahreszeit") +
+  ggtitle("Durchschnittlicher Umsatz nach Jahreszeit") +
+    theme_minimal()
+bar_season
+
+# save plot as image file
+ggsave("bar_season.jpeg", plot = bar_season)
+```
+
+
+The same bar plot now with error bars:
+
+```{r}
+# sort season variable
+data$Season <- factor(data$Season, levels=c("Spring", "Summer", "Fall", "Winter"))
+
+# Calculate confidence interval (ic) (from r graph gallery)
+  # Calculates mean, sd, se and iC
+my_sum_season <- data %>%
+  group_by(Season) %>%
+  summarise( 
+    n=n(),
+    mean=mean(Umsatz, na.rm = TRUE),
+    sd=sd(Umsatz, na.rm = TRUE)
+  ) %>%
+  mutate( se=sd/sqrt(n))  %>%
+  mutate( ic=se * qt((1-0.05)/2 + .5, n-1))
+   # check
+print(my_sum_season)
+
+# create bar plot with error bars
+bar_season_errorbar <- ggplot(my_sum_season) +
+  aes(x=Season, y=mean) +
+  geom_bar(stat="identity", color="darkturquoise", fill="darkturquoise") +
+  geom_errorbar(aes(x=Season, ymin=mean-ic, ymax=mean+ic), width=0.4, colour="orange", alpha=0.9,                   linewidth=1.5) +
+  geom_text(aes(label=paste(round(mean+ic, 2), "\n", round(mean-ic, 2), sep = "")),                                position = position_dodge(0.7), vjust = -0.5, color="black", size=3.5) +
+  # geom_text(aes(label=round(mean, digits = 2)), vjust=-1.6, color="black", size=3.5) +
+  labs(x="Jahreszeit", y="Durchschnittsumsatz") +
+  ggtitle("Durchschnittlicher Umsatz nach Jahreszeit mit Konfidenzintervall") +
+  theme_minimal() +
+  coord_cartesian(ylim = c(0, max(my_sum_season$mean + my_sum_season$ic) + 20)) # Adjust plot height
+bar_season_errorbar
+
+# save plot as image file
+ggsave("bar_season_errorbar.jpeg", plot = bar_season_errorbar)
+```
