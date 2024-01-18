@@ -12,7 +12,7 @@ get_feiertage <- function(jahr, land) {
 
 # Concerning period
 start_date <- as.Date("2013-07-01")
-end_date <- as.Date("2019-08-1")
+end_date <- as.Date("2019-07-31")
 
 # List for "Feiertage"
 feiertage_list <- list()
@@ -52,3 +52,4 @@ write.csv(feiertage_csv, "0_DataPreparation/feiertage.csv", row.names = FALSE)
 
 # Showing new/updated df
 View(feiertage_csv)
+
