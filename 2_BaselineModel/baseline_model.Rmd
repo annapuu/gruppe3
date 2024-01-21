@@ -176,10 +176,20 @@ summary(mod9)
 
 Model 9: Adjusted R-squared:  0.7395
 
-This model is again slightly better than model 7, so this one can be considered the best model for now.
+This model is again slightly better than model 7.
 
 
-Preparation for the next step of putting model 9 to use:
+```{r}
+# model 10 with interaction effects
+mod10 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien + Feiertag + Season + (Season * as.factor(Warengruppe)) + (Wochenende * as.factor(Warengruppe)) + (Schulferien * as.factor(Warengruppe)) + (Temperatur_bins * as.factor(Warengruppe)) + (Temperatur_bins * Schulferien), training_data2)
+summary(mod10)
+```
+Model 10: Adjusted R-squared:  0.8227
+
+This model contains various interaction effects and is by far the best model.
+
+
+Preparation for the next step of putting model 10 to use:
 
 ```{r}
 # create 7 manual bins for validation data and test data as well
