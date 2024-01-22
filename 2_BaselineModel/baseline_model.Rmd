@@ -184,7 +184,7 @@ This model is again slightly better than model 7.
 mod10 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien + Feiertag + Season + (Season * as.factor(Warengruppe)) + (Wochenende * as.factor(Warengruppe)) + (Schulferien * as.factor(Warengruppe)) + (Temperatur_bins * as.factor(Warengruppe)) + (Temperatur_bins * Schulferien), training_data2)
 summary(mod10)
 ```
-Model 10: Adjusted R-squared:  0.8227
+Model 10: Adjusted R-squared:  0.8247
 
 This model contains various interaction effects and is by far the best model.
 
