@@ -2,7 +2,7 @@
 
 ## Repository Link
 
-[<https://github.com/annapuu/gruppe3>]
+<https://github.com/annapuu/gruppe3>
 
 ## Description
 
@@ -14,15 +14,16 @@ Regression
 
 ### Results Summary
 
--   **Best Model:** [Name of the best-performing model]
+-   **Best Model:** mod10
 -   **Evaluation Metric:** MAPE
+-   **Result:** 24.19786%
 -   **Result by Category** (Identifier):
     -   **Bread** (1): [XX]%
-    -   **Rolls** (2): [XX]%
-    -   **Croissant** (3): [XX]%
-    -   **Confectionery** (4): [XX]%
-    -   **Cake** (5): [XX]%
-    -   **Seasonal Bread** (6): [XX]%
+    -   **Rolls** (2): 48.91%
+    -   **Croissant** (3): 46.07%
+    -   **Confectionery** (4): 51.09%
+    -   **Cake** (5): 52.11%
+    -   **Seasonal Bread** (6): 54.90%
 
 ## Documentation
 
