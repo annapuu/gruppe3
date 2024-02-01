@@ -34,11 +34,11 @@ head(test_data)
 
 
 ```{r}
-# make predictions with model 9 and compare with actual values of validation data
+# make predictions with model 10 and compare with actual values of validation data
 # model 10, our baseline model
 mod10 <- lm(Umsatz ~ as.factor(Warengruppe) + Temperatur_bins + Wochenende + KielerWoche + Schulferien + Feiertag + Season + (Season * as.factor(Warengruppe)) + (Wochenende * as.factor(Warengruppe)) + (Schulferien * as.factor(Warengruppe)) + (Temperatur_bins * as.factor(Warengruppe)) + (Temperatur_bins * Schulferien), training_data2)
 
-# make predictions for validation data
+# make predictions for validation data 
 predicted_values <- predict(mod10, newdata = validation_data2)
 
 # compare the predicted values with the actual values of validation data
