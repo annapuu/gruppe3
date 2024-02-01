@@ -13,7 +13,7 @@
 - [Saved file for neural net](df_neural_net.csv)
 
 
-**[Preparing the dataset for the neural net](neural-net-data-preparation.R):** Sorting the dataset by date, creating features and labels, splitting the them into training, validation and test data and saving them as a csv-file in a separate folder
+**[Preparing the dataset for the neural net](neural-net-data-preparation.R):** Sorting the dataset by date, creating features and labels, splitting them into training, validation and test data and saving them as a csv-file in a separate folder
 - [Folder with the six prepared csv-files](https://github.com/annapuu/gruppe3/tree/main/csv_df_neural_net)
   - test_features.csv
   - test_labels.csv
