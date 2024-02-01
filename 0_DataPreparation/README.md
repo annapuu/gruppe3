@@ -9,7 +9,7 @@
 - [Saved file with all variables](data.csv)
 
 
-**[Handling missing values (neural net)](df_neural_net.R):** Joining with test data, deleting unneeded data, handling missing values and saving as a csv-file
+**[Handling missing values for the neural net](df_neural_net.R):** Joining with test data, deleting unneeded data, handling missing values and saving as a csv-file
 - [Saved file for neural net](df_neural_net.csv)
 
 
