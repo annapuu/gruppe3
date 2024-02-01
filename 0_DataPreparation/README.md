@@ -1,6 +1,6 @@
 # Data Preparation
 
-**[Preparing the dataset](data.R):** Importing the data, joining the datasets, creating new variables and saving as a csv-file
+**[Creating the dataset](data.R):** Importing the data, joining the datasets, creating new variables and saving as a csv-file
 - feiertage.csv -> [Creating Feiertage data](feiertage.R)
 - kiwo.csv
 - schulferien.csv
