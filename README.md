@@ -16,7 +16,7 @@ Regression
 
 -   **Best Model:** mod10
 -   **Evaluation Metric:** MAPE
--   **Result:** 24.19786%
+-   **Result for mod10:** 24.19786%
 -   **Result by Category** (Identifier):
     -   **Bread** (1): [XX]%
     -   **Rolls** (2): 48.91%
