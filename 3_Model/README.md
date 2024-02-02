@@ -12,3 +12,4 @@
 
 **[Applying the neural net](neural_net_estimation_gruppe3_best.ipynb):** Defining the neural net, training the model, plotting its history, making predictions for the validation data, calculating the MAPE, evaluating the model's accuracy, making predictions for the test data and saving the predicted values as a csv-file
 - kaggle_submission_neural_net_best.csv
+- kaggle_submission.csv (old submission)
