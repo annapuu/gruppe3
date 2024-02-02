@@ -6,11 +6,11 @@
 - schulferien.csv
 - train_kaggle.csv
 - wetter.csv
-- [Saved file with all variables](data.csv)
+- data.csv (saved file with all variables)
 
 
 **[Handling missing values for the neural net](df_neural_net.R):** Joining with test data, deleting unneeded data, handling missing values and saving as a csv-file
-- [Saved file for neural net](df_neural_net.csv)
+- df_neural_net.csv (saved file for neural net)
 
 
 **[Preparing the dataset for the neural net](neural-net-data-preparation.R):** Sorting the dataset by date, creating features and labels, splitting them into training, validation and test data and saving them as a csv-file in a separate folder
